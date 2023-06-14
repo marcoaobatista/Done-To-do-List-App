@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Done - My tasks</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div>
+          <img src="Logo.png" alt="Logo" class="logo">
+          <button type="button" class="nav-toggle">H</button>
+        </div>
+
+        <ul>
+          <li>
+            <a href="#">
+              <span class="icon">i</span>
+              <span class="">List Name</span>
+              <span class="">0 tasks</span>
+            </a>
+          </li>
+        </ul>
+
+        <button class="add-list-btn">Add list</button>
+      </nav>
+    </header>
+
+    <main>
+      <div>
+        <h1>List Name</h1>
+        <hr />
+        <section class="tasks-todo">
+          <h2>Tasks - 0</h2>
+          <ul>
+
+            <li class="task-card">
+              <input type="checkbox" id="task1" />
+
+              <span class="task-title">Todo list item</span>
+              <span class="task-date">mon., jan 01 2023</span>
+            </li>
+
+          </ul>
+        </section>
+
+        <section class="tasks-completed">
+          <h2>Completed - 0</h2>
+        </section>
+      </div>
+    </main>
+
+    <button class="add-task-btn">+</button>
+  </body>
+</html>

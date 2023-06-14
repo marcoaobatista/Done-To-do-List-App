@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+:root{
+    --text-color: #353535;
+}
+
+body{
+    font-family: 'Inter', sans-serif;
+    background-color: #F7F7F7;
+}
+
+h1{
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text-color);
+}
+h2{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+
+hr{
+    color: #D2D2D2;
+}
+
+ul{
+    /* remove bullets from ul */
+    list-style-type: none
+}
+
+.task-card{
+    transition: ease-in-out 200ms;
+    background-color: white;
+    padding: 18px 26px;
+    border-radius: 14px;
+}
+.task-card:hover{
+    box-shadow: 0px 7px 17px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.task-title{
+    line-height: 22px;  
+    color: #353535;
+}
+
+.task-date{
+    display: block;
+    font-size: 12px;
+    color: #A9A9A9;
+}
+
+.add-task-btn{
+    position: absolute;
+    bottom: 45px; 
+    right: 45px;
+    display: inline-block;
+    height: 60px;
+    width: 60px;
+    border: none;
+    border-radius: 50%;
+    background: #353535;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    transition: ease-in-out 200ms;
+}
+.add-task-btn:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.add-task-btn:active{
+    transform: scale(0.95);
+}
