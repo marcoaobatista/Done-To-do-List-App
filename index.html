@@ -6,21 +6,26 @@
     <title>Done - My tasks</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </head>
   <body>
     <header>
       <nav>
-        <div>
-          <img src="Logo.png" alt="Logo" class="logo">
-          <button type="button" class="nav-toggle">H</button>
+        <div class="logo">
+          <img src="DoneLogo.svg" alt="Logo" class="logo" />
+          <a class="nav-toggle" onclick="close_nav()">&times;</a>
         </div>
 
         <ul>
           <li>
-            <a href="#">
-              <span class="icon">i</span>
-              <span class="">List Name</span>
-              <span class="">0 tasks</span>
+            <a href="#" class="list">
+                <ion-icon name="school-outline" class="list-icon"></ion-icon>
+              <div class="list-text">
+                <span class="list-title">List Name</span>
+                <span class="list-tasks">0 Tasks</span>
+              </div>
             </a>
           </li>
         </ul>
@@ -30,20 +35,19 @@
     </header>
 
     <main>
-      <div>
-        <h1>List Name</h1>
+      <div class="main">
+        <h1>School</h1>
         <hr />
         <section class="tasks-todo">
           <h2>Tasks - 0</h2>
           <ul>
-
             <li class="task-card">
               <input type="checkbox" id="task1" />
-
-              <span class="task-title">Todo list item</span>
-              <span class="task-date">mon., jan 01 2023</span>
+              <div class="task-text">
+                <span class="task-title">Todo list item</span>
+                <span class="task-date">mon., jan 01 2023</span>
+              </div>
             </li>
-
           </ul>
         </section>
 
@@ -53,6 +57,6 @@
       </div>
     </main>
 
-    <button class="add-task-btn">+</button>
+    <button class="add-task-btn" onclick="open_nav()"><ion-icon name="add-outline"></ion-icon></button>
   </body>
 </html>
