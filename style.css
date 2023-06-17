@@ -47,6 +47,7 @@ ul{
     background-color: white;
     border-radius: 14px;
     display: flex;
+    margin-bottom: 14px;
 }
 .task-card:hover{
     box-shadow: 0px 7px 17px rgba(0, 0, 0, 0.05);
@@ -56,7 +57,7 @@ ul{
 
 .task-card input{
     padding: 10px;
-    margin: auto 26px;
+    margin: auto 20px;
 }
 
 .task-title{
@@ -72,11 +73,11 @@ ul{
 }
 .task-text{
     display: inline-block;
-    margin: 18px 18px 18px 0px;
+    margin: 16px 16px 16px 0px;
 }
 
 .add-task-btn{
-    position: absolute;
+    position: fixed;
     bottom: 45px; 
     right: 45px;
     display: inline-block;
@@ -108,12 +109,13 @@ nav{
     top: 0;
     left: 0;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 0.2s;
+    white-space: nowrap;
 }
 
 .main{
     padding: 8% 12%;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 
@@ -172,10 +174,8 @@ input[type="checkbox"] {
     margin:0;
   }
   .logo a{
-    width: 30px;
-    height: 30px;
     appearance: none;
-    font-size: 30px;
+    font-size: 34px;
     color: #a6a6a6;
 
   }
@@ -241,3 +241,17 @@ input[type="checkbox"] {
   ion-icon{
     --ionicon-stroke-width: 36px;
   }
+
+
+.nav-open{
+  font-size: 30px;
+  color: #a6a6a6;
+  position:fixed;
+  top: 35px;
+  left: 35px;
+
+}
+.nav-open:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
