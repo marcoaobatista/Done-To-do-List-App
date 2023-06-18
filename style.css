@@ -304,3 +304,27 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: space-between;
 }
+
+.add-task-card input{
+  border-radius: 10px;
+  border: none;
+  background-color: #F7F7F7;
+  padding: 14px;
+  width: 100%;
+  font-size: 18px;
+  color: #353535;
+}
+
+
+.action-button{
+  color: white;
+  background-color: #353535;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 18px;
+}
+
+.input-label{
+  font-size: 18px;
+  color: #A6A6A6;
+}
