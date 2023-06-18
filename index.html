@@ -12,11 +12,11 @@
   </head>
   <body>
     <header>
-      <a class="nav-open" onclick="open_nav()">&#9776;</a>
+      <a class="nav-open">&#9776;</a>
       <nav>
         <div class="logo">
           <img src="DoneLogo.svg" alt="Logo" class="logo" />
-          <a class="nav-close" onclick="close_nav()">&times;</a>
+          <a class="nav-close">&times;</a>
         </div>
 
         <ul>
@@ -55,7 +55,11 @@
 
     <main>
       <div class="main">
-        <h1>School</h1>
+        <div class="heading">
+          <h1>School</h1>
+          <ion-icon name="ellipsis-horizontal"></ion-icon>
+        </div>
+        
         <hr />
         <section class="tasks-todo">
           <h2>Tasks - 0</h2>
@@ -88,6 +92,16 @@
           <h2>Completed - 0</h2>
         </section>
       </div>
+
+      <div class="background-overlay">
+        <div class="add-task-card">
+          <div class="add-task-card-header">
+            <h1>Add Task</h1>
+            <div class="date"></div>
+          </div>
+        </div>
+      </div>
+
     </main>
 
     <button class="add-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
