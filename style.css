@@ -1,47 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
 
-:root{
-    --text-color: #353535;
-}
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 a{
-    text-decoration: none;
+  text-decoration: none;
 }
-
 body{
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    background-color: #F7F7F7;      
+    background-color: #F7F7F7; 
 }
-
-h1{
-    font-size: 26px;
-    margin: 24px 0;
-    font-weight: 300;
-    color: var(--text-color);
-}
-h2{
-    font-size: 18px;
-    margin: 20px 0;
-    font-weight: 300;
-    color: #B0B0B0;
-}
-
-
-
 hr{
-    border: 1px solid #EAEAEA;
+  border: 1px solid #EAEAEA;
 }
-
 ul{
-    /* remove bullets from ul */
-    list-style-type: none
+  /* remove bullets from ul */
+  list-style-type: none
+}
+section{
+  margin-bottom: 50px;
+}
+/* Style the custom checkbox */
+input[type="checkbox"]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
+/* Display the checkmark when the checkbox is checked */
+input[type="checkbox"]:checked:before {
+  content: "\2713"; /* Unicode checkmark character */
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #a6a6a6;
+  font-weight: 700;
+}
+/* Hide the default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #a6a6a6;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+ion-icon{
+  --ionicon-stroke-width: 36px;
+}
+
+.list__header__title{
+  font-size: 26px;
+  margin: 24px 0;
+  font-weight: 300;
+  color: #353535;
+}
+
+.list__tasks__title{
+  font-size: 18px;
+  margin: 20px 0;
+  font-weight: 300;
+  color: #B0B0B0;
+}
 .task-card{
     transition: ease-in-out 200ms;
     background-color: white;
@@ -55,28 +93,28 @@ ul{
     transform: translateY(-2px);
 }
 
-.task-card input{
+.task-card__checkbox{
     padding: 10px;
     margin: auto 20px;
 }
 
-.task-title{
+.task-card__title{
     font-size: 16px;
     color: #353535;
 }
 
-.task-date{
+.task-card__date{
     display: block;
     margin-top: 2px;
     font-size: 12px;
     color: #a6a6a6;
 }
-.task-text{
+.task-card__content{
     display: inline-block;
     margin: 16px 16px 16px 0px;
 }
 
-.add-task-btn{
+.new-task-btn{
     position: fixed;
     bottom: 45px; 
     right: 45px;
@@ -100,7 +138,7 @@ ul{
     transform: scale(0.95);
 }
 
-nav{
+.nav{
     height: 100%;
     width: 0;
     background-color: white;
@@ -113,134 +151,86 @@ nav{
     white-space: nowrap;
 }
 
-.main{
+.list{
     padding: 8% 12%;
     transition: 0.2s;
 }
 
 
 
-/* Hide the default checkbox */
-input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 3px solid #a6a6a6;
-    border-radius: 50%;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s ease;
-  }
+
+
+.nav__header{
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+.nav__close-btn{
+  appearance: none;
+  font-size: 34px;
+  color: #a6a6a6;
+
+}
+.nav__close-btn:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+
+
+.nav__new-list-btn{
+  width: calc(100% - 40px); 
+  display: block;
+  background-color: white;
+  border-radius: 10px;
+  border: 3px solid #F7F7F7;
+  color: #a6a6a6;
+  padding: 10px;
+  margin: 20px;
+  font-size: 16px;
+  transition: 500ms;
+}
+.nav__new-list-btn:hover{
+  cursor: pointer;
+  background-color: #F7F7F7;
+}
+
+.list-link{
+  display: block;
+  margin: 20px;
   
-  /* Style the custom checkbox */
-  input[type="checkbox"]:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 1px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Display the checkmark when the checkbox is checked */
-  input[type="checkbox"]:checked:before {
-    content: "\2713"; /* Unicode checkmark character */
-    font-size: 14px;
-    color: white;
-    text-align: center;
-  }
+  width: calc(100% - 40px);
+  border-radius: 10px;
+  display: flex;
+}
+.list-link:hover{
+  background-color: #F7F7F7;
+}
 
-  input[type="checkbox"]:checked {
-    background-color: #a6a6a6;
-    font-weight: 700;
-  }
-  
-  section{
-    margin-bottom: 50px;
-  }
+.list-link__title{
+  font-size: 16px;
+  color: #353535;
+  display: block;
+}
+.list-link__tasks-count{
+  font-size: 16px;
+  color: #a6a6a6;
+}
+.list-link__content{
+  display: inline-block;
+  margin: 14px 14px 14px 0px;
+}
+.list-link__icon{
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  margin: auto 26px;
+  color: #353535;
+  font-size: 24px;
 
-  .logo{
-    margin: 30px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .logo img{
-    margin:0;
-  }
-  .logo a{
-    appearance: none;
-    font-size: 34px;
-    color: #a6a6a6;
-
-  }
-  .logo a:hover{
-    cursor: pointer;
-    opacity: 0.8;
-  }
+}
 
 
-
-  .add-list-btn{
-    width: calc(100% - 40px); 
-    display: block;
-    background-color: white;
-    border-radius: 10px;
-    border: 3px solid #F7F7F7;
-    color: #a6a6a6;
-    padding: 10px;
-    margin: 20px;
-    font-size: 16px;
-    transition: 500ms;
-  }
-  .add-list-btn:hover{
-    cursor: pointer;
-    background-color: #F7F7F7;
-  }
-
-  .list{
-    display: block;
-    margin: 20px;
-    
-    width: calc(100% - 40px);
-    border-radius: 10px;
-    display: flex;
-  }
-  .list:hover{
-    background-color: #F7F7F7;
-  }
-
-  .list-title{
-    font-size: 16px;
-    color: #353535;
-    display: block;
-  }
-  .list-tasks{
-    font-size: 16px;
-    color: #a6a6a6;
-  }
-  .list-text{
-    display: inline-block;
-    margin: 14px 14px 14px 0px;
-  }
-  .list-icon{
-    position: relative;
-    display: inline-flex;
-    vertical-align: middle;
-    margin: auto 26px;
-    color: #353535;
-    font-size: 24px;
-
-  }
-
-  ion-icon{
-    --ionicon-stroke-width: 36px;
-  }
 
 
 .nav-open{
@@ -257,20 +247,20 @@ input[type="checkbox"] {
 }
 
 
-.heading {
+.list__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.heading ion-icon {
+.list__header__icon {
   font-size: 24px;
   color: #a6a6a6;
 }
 
 
 .background-overlay{
-  /* display: none; */
+  display: flex;
   z-index: 1;
   position: absolute;
   width: 100%;
@@ -281,50 +271,99 @@ input[type="checkbox"] {
   backdrop-filter: blur(3.5px);
 }
 
-.add-task-card{
+.action-card{
   z-index: 2;
   background-color: white;
   padding: 36px;
   width: 50%;
   border-radius: 25px;
-
-  margin: 50vh auto 0;
-  transform: translateY(-50%);
+  margin: auto;
 }
-.add-task-card h1{
+
+.action-card--compact{
+  width: 30%;
+}
+
+.action-card__title{
+  font-size: 26px;
+  margin: 24px 0;
+  font-weight: 300;
+  color: #353535;
   margin: 0;
 }
-.date{
-  height: 45px;
+.action-card__date-input{
   background: #F7F7F7;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
 }
-.add-task-card-header{
+.action-card__icon{
+  color: #353535;
+  font-size: 18px;
+}
+.action-card__icon--padded{
+  background-color: #F7F7F7;
+  padding: 14px;
+  border-radius: 10px;
+  margin-right: 24px;
+  display: flex;
+}
+.action-card__date-input__text{
+  color: #A6A6A6;
+  padding: 0 14px;
+  font-size: 16px;
+}
+.action-card__header{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 23px;
 }
 
-.add-task-card input{
+.action-card__text-input{
   border-radius: 10px;
   border: none;
   background-color: #F7F7F7;
   padding: 14px;
   width: 100%;
-  font-size: 18px;
+  font-size: 15px;
   color: #353535;
 }
 
 
-.action-button{
+.action-card__btn{
   color: white;
   background-color: #353535;
   border-radius: 10px;
   padding: 14px;
-  font-size: 18px;
+  font-size: 16px;
+  border: none;
+  transition: 0.5s;
+  font-weight: 300;
+}
+.action-card__btn:hover{
+  cursor: pointer;
+  opacity: 0.7;
 }
 
-.input-label{
-  font-size: 18px;
+.action-card__text-input-label{
+  font-size: 16px;
+  font-weight: 300;
   color: #A6A6A6;
+  margin-bottom: 8px;
+}
+
+.action-card__content{
+  display: flex;
+  align-items: flex-end;
+}
+
+.action-card__btn--delete{
+  color: #FF2B2B;
+  background: #F7F7F7;
+}
+
+.hide{
+  display: none;
 }

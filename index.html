@@ -13,100 +13,124 @@
   <body>
     <header>
       <a class="nav-open">&#9776;</a>
-      <nav>
-        <div class="logo">
-          <img src="DoneLogo.svg" alt="Logo" class="logo" />
-          <a class="nav-close">&times;</a>
+      <nav class="nav">
+        <div class="nav__header">
+          <img src="DoneLogo.svg" alt="Done Logo" />
+          <a class="nav__close-btn">&times;</a>
         </div>
 
         <ul>
           <li>
-            <a href="#" class="list">
-                <ion-icon name="school-outline" class="list-icon"></ion-icon>
-              <div class="list-text">
-                <span class="list-title">List Name</span>
-                <span class="list-tasks">0 Tasks</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="list">
-                <ion-icon name="school-outline" class="list-icon"></ion-icon>
-              <div class="list-text">
-                <span class="list-title">List Name</span>
-                <span class="list-tasks">0 Tasks</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="list">
-                <ion-icon name="school-outline" class="list-icon"></ion-icon>
-              <div class="list-text">
-                <span class="list-title">List Name</span>
-                <span class="list-tasks">0 Tasks</span>
+            <a href="#" class="list-link">
+              <ion-icon name="school-outline" class="list-link__icon"></ion-icon>
+              <div class="list-link__content">
+                <span class="list-link__title">List Name</span>
+                <span class="list-link__tasks-count">0 Tasks</span>
               </div>
             </a>
           </li>
         </ul>
 
-        <button class="add-list-btn">Add list</button>
+        <button class="nav__new-list-btn">Add list</button>
       </nav>
     </header>
 
     <main>
-      <div class="main">
-        <div class="heading">
-          <h1>School</h1>
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <div class="list">
+        <div class="list__header">
+          <h1 class="list__header__title">School</h1>
+          <ion-icon class="list__header__icon" name="ellipsis-horizontal"></ion-icon>
         </div>
         
         <hr />
-        <section class="tasks-todo">
-          <h2>Tasks - 0</h2>
+        <section class="list__tasks">
+          <h2 class="list__tasks__title">Tasks - 0</h2>
           <ul>
             <li class="task-card">
-              <input type="checkbox" id="task1" />
-              <div class="task-text">
-                <span class="task-title">Todo list item</span>
-                <span class="task-date">mon., jan 01 2023</span>
-              </div>
-            </li>
-            <li class="task-card">
-              <input type="checkbox" id="task1" />
-              <div class="task-text">
-                <span class="task-title">Todo list item</span>
-                <span class="task-date">mon., jan 01 2023</span>
-              </div>
-            </li>
-            <li class="task-card">
-              <input type="checkbox" id="task1" />
-              <div class="task-text">
-                <span class="task-title">Todo list item</span>
-                <span class="task-date">mon., jan 01 2023</span>
+              <input type="checkbox" id="task1" class="task-card__checkbox"/>
+              <div class="task-card__content">
+                <span class="task-card__title">Todo list item</span>
+                <span class="task-card__date">mon., jan 01 2023</span>
               </div>
             </li>
           </ul>
         </section>
 
-        <section class="tasks-completed">
-          <h2>Completed - 0</h2>
+        <section class="list__completed">
+          <h2 class="list__tasks__title">Completed - 0</h2>
         </section>
       </div>
 
-      <div class="background-overlay">
-        <div class="add-task-card">
-          <div class="add-task-card-header">
-            <h1>Add Task</h1>
-            <div class="date">No Date</div>
+      <div class="background-overlay hide">
+        <!-- ADD TASK CARD -->
+        <div class="action-card">
+          <div class="action-card__header">
+            <h2 class="action-card__title">Add Task</h2>
+            <div class="action-card__date-input">
+              <ion-icon name="calendar-outline" class="action-card__date-input__icon"></ion-icon>
+              <span class="action-card__date-input__text">No Date</span>
+            </div>
           </div>
-          <p class="input-label">Task Name:</p>
-          <input type="text">
-          <button class="action-button">Create</button>
+          <h3 class="action-card__text-input-label">Task Name:</h3>
+          <div class="action-card__content">
+            <input type="text" class="action-card__text-input">
+            <button class="action-card__btn">Create</button>
+          </div>
         </div>
+
+        <!-- EDIT TASK CARD -->
+        <div class="action-card">
+          <div class="action-card__header">
+            <h2 class="action-card__title">Edit Task</h2>
+            <div class="action-card__date-input">
+              <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
+              <span class="action-card__date-input__text">No Date</span>
+            </div>
+          </div>
+          <h3 class="action-card__text-input-label">Task Name:</h3>
+          <div class="action-card__content">
+            <input type="text" class="action-card__text-input">
+            <button class="action-card__btn">Create</button>
+          </div>
+        </div>
+
+        <!-- EDIT LIST -->
+        <div class="action-card action-card--compact">
+          <div class="action-card__header">
+            <h2 class="action-card__title">Edit List</h2>
+            <button class="action-card__btn action-card__btn--delete">Delete List</button>
+          </div>
+          <h3 class="action-card__text-input-label">List Name:</h3>
+          <div class="action-card__content">
+            <input type="text" class="action-card__text-input">
+            <button class="action-card__btn">Save</button>
+          </div>
+        </div>
+
+        <!-- CREATE LIST -->
+        <div class="action-card action-card--compact">
+          <div class="action-card__header">
+            <h2 class="action-card__title">Create List</h2>
+          </div>
+          <div class="action-card__content">
+            <div class="action-card__select-icon">
+              <h3 class="action-card__text-input-label">Icon:</h3>
+              <div class="action-card__icon--padded">
+                <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
+              </div>
+            </div>
+            <div class="">
+              <h3 class="action-card__text-input-label">List Name:</h3>
+              <input type="text" class="action-card__text-input">
+            </div>
+            <button class="action-card__btn">Create</button>
+          </div>
+        </div>
+
       </div>
 
     </main>
-
-    <button class="add-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
+    
+    <button class="new-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
   </body>
 </html>
