@@ -297,6 +297,10 @@ ion-icon{
   display: flex;
   align-items: center;
   padding: 12px;
+  color: #353535;
+  font-size: 16px;
+  border: none;
+  font-family: 'Inter', sans-serif;
 }
 .action-card__icon{
   color: #353535;
@@ -308,11 +312,6 @@ ion-icon{
   border-radius: 10px;
   margin-right: 24px;
   display: flex;
-}
-.action-card__date-input__text{
-  color: #A6A6A6;
-  padding: 0 14px;
-  font-size: 16px;
 }
 .action-card__header{
   display: flex;

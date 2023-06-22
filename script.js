@@ -14,4 +14,48 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelector('.nav').style.width = '0';
         document.querySelector('.list').style.marginLeft= '0';
     }
+    
+
+    
+    function create_db(){
+        const request = indexedDB.open("Done_todo_list");
+        request.onsuccess = e =>{
+            console.log("success");
+        }
+        request.onupgradeneeded = e =>{
+            console.log("upgrade");
+        }
+        request.onerror = e =>{
+            console.log("error");
+        }
+    }
+    create_db();
+
+
+
+    function create_list(){
+        
+    }
+    function delete_list(){
+        
+    }
+    function update_list(){
+
+    }
+
+    function create_task(){
+        
+    }
+    function delete_task(){
+        
+    }
+    function update_task(){
+
+    }
+    function complete_task(){
+
+    }    
+
+
+
 });
