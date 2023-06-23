@@ -21,7 +21,7 @@
 
         <ul>
           <li>
-            <a href="#" class="list-link">
+            <a href="#General" class="list-link">
               <ion-icon name="school-outline" class="list-link__icon"></ion-icon>
               <div class="list-link__content">
                 <span class="list-link__title">List Name</span>
@@ -66,66 +66,74 @@
       <!-- ADD TASK CARD -->
       <div class="overlay-background hide" id="new-task-page">
         <div class="action-card">
+          <form id="add-task-form">
           <div class="action-card__header">
             <h2 class="action-card__title">Add Task</h2>
-            <input type="date" class="action-card__date-input">
+            <input type="date" class="action-card__date-input" id="add-task-date-input">
           </div>
-          <h3 class="action-card__text-input-label">Task Name:</h3>
+          <label class="action-card__text-input-label" for="add-task-text-input">Task Name:</label>
           <div class="action-card__content">
-            <input type="text" class="action-card__text-input">
-            <button class="action-card__btn">Create</button>
+            <input type="text" class="action-card__text-input" id="add-task-text-input" name="task-name" required>
+            <button class="action-card__btn" type="submit">Create</button>
           </div>
+        </form>
         </div>
       </div>
         <!-- EDIT TASK CARD -->
       <div class="overlay-background hide" id="edit-task-page">
         <div class="action-card">
+          <form action="">
           <div class="action-card__header">
             <h2 class="action-card__title">Edit Task</h2>
             <input type="date" class="action-card__date-input">
           </div>
-          <h3 class="action-card__text-input-label">Task Name:</h3>
+          <label class="action-card__text-input-label" for="edit-task-text-input">Task Name:</label>
           <div class="action-card__content">
-            <input type="text" class="action-card__text-input">
-            <button class="action-card__btn">Create</button>
+            <input type="text" class="action-card__text-input" id="edit-task-text-input" name="task-name" required>
+            <button class="action-card__btn" type="submit">Create</button>
           </div>
+        </form>
         </div>
       </div>
         
         <!-- EDIT LIST -->
       <div class="overlay-background hide" id="edit-list-page">
         <div class="action-card action-card--compact">
+          <form action="">
           <div class="action-card__header">
             <h2 class="action-card__title">Edit List</h2>
             <button class="action-card__btn action-card__btn--delete">Delete List</button>
           </div>
-          <h3 class="action-card__text-input-label">List Name:</h3>
+          <label class="action-card__text-input-label" for="edit-list-text-input">List Name:</label>
           <div class="action-card__content">
-            <input type="text" class="action-card__text-input">
-            <button class="action-card__btn">Save</button>
+            <input type="text" class="action-card__text-input" id="edit-list-text-input" name="list-name">
+            <button class="action-card__btn" type="submit">Save</button>
           </div>
+        </form>
         </div>
       </div>
 
         <!-- CREATE LIST -->
       <div class="overlay-background hide" id="new-list-page">
         <div class="action-card action-card--compact">
+          <form action="">
           <div class="action-card__header">
             <h2 class="action-card__title">Create List</h2>
           </div>
           <div class="action-card__content">
             <div class="action-card__select-icon">
-              <h3 class="action-card__text-input-label">Icon:</h3>
+              <label class="action-card__text-input-label" for="">Icon:</label>
               <div class="action-card__icon--padded">
                 <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
               </div>
             </div>
             <div class="">
-              <h3 class="action-card__text-input-label">List Name:</h3>
-              <input type="text" class="action-card__text-input">
+              <label class="action-card__text-input-label" for="create-list-text-input">List Name:</label>
+              <input type="text" class="action-card__text-input" id="create-list-text-input" name="list-name" required>
             </div>
-            <button class="action-card__btn">Create</button>
+            <button class="action-card__btn" type="submit">Create</button>
           </div>
+        </form>
         </div>
       </div>
 

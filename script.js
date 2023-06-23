@@ -35,8 +35,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     function show_action_page(page_id){
-        page = document.getElementById(page_id);
+        inputs = document.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
 
+        page = document.getElementById(page_id);
         page.style.display = 'flex';
         page.addEventListener('click', () => page.style.display = 'none');
     }
@@ -64,7 +66,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //         { id: 2, name: 'comemorate birthday',  due: new Date('2024-02-19'), completed: false,},
     //     ]
     // }    
-
+    
+    const listId = window.location.hash.substring(1);
 
     // INDEXEDDB CODE
     const request = indexedDB.open("DoneTodoList", 2);
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (!db.objectStoreNames.contains('toDoLists')) {
           db.createObjectStore('toDoLists', { keyPath: 'id', autoIncrement: true});
         }
-        alert("On onupgradeneeded")
+        alert("On onupgradeneeded");
     };
 
 
@@ -102,6 +105,57 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log("Error", e.target.error.name);
         };
     }
+
+    function create_task(listId, task) {
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['toDoLists'], 'readwrite');
+            const store = transaction.objectStore('toDoLists');
+    
+            // First, retrieve the list from the object store
+            const getRequest = store.get(listId);
+    
+            getRequest.onsuccess = function(e) {
+                const list = e.target.result;
+    
+                if (list) {
+                    // Find the max id in the existing tasks
+                    let maxId = list.tasks.reduce((max, task) => Math.max(max, task.id), 0);
+    
+                    // Assign a new id to the new task
+                    task.id = maxId + 1;
+    
+                    // Add the new task to the tasks array
+                    list.tasks.push(task);
+    
+                    // Then, put the updated list back into the object store
+                    const putRequest = store.put(list);
+    
+                    putRequest.onsuccess = function(e) {
+                        console.log('Task added to list', e);
+                        resolve(); // Operation completed successfully, resolve the promise
+                    };
+    
+                    putRequest.onerror = function(e) {
+                        console.log('Error', e.target.error.name);
+                        reject(e.target.error); // An error occurred, reject the promise
+                    };
+                } else {
+                    console.log('List not found');
+                    reject(new Error('List not found')); // List not found, reject the promise
+                }
+            };
+    
+            getRequest.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
+            };
+        });
+    }
+    
+    
+    
+
+
     
     document.querySelector('.list__tasks__title').addEventListener('click', () => {
         console.log('general created')
@@ -113,5 +167,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
 
+    // check what list user is viewing
+    // call create task with the values of the inputs
+
+
+    // HANDLE FORMS SUBMISSIONS
+    const createTaskForm = document.getElementById('add-task-form');
+    createTaskForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        taskInput = document.getElementById('add-task-text-input');
+        taskName = taskInput.value;
+
+        dateInput = document.getElementById('add-task-date-input');
+        dateValue = dateInput.value;
+
+        create_task(1, {id: 0, name: taskName, due: new Date(dateValue), completed: false })
+            .then(() => {
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error adding task:', error);
+            });
+    });
 
 });
