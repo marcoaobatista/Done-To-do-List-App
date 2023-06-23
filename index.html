@@ -31,7 +31,7 @@
           </li>
         </ul>
 
-        <button class="nav__new-list-btn">Add list</button>
+        <button class="nav__new-list-btn" id="new-list-btn">Add list</button>
       </nav>
     </header>
 
@@ -39,7 +39,9 @@
       <div class="list">
         <div class="list__header">
           <h1 class="list__header__title">School</h1>
-          <ion-icon class="list__header__icon" name="ellipsis-horizontal"></ion-icon>
+          <button class="list__header__button" id="edit-list-btn">
+            <ion-icon class="list__header__button_icon" name="ellipsis-horizontal"></ion-icon>
+          </button>
         </div>
         
         <hr />
@@ -61,8 +63,8 @@
         </section>
       </div>
 
-      <div class="background-overlay hide">
-        <!-- ADD TASK CARD -->
+      <!-- ADD TASK CARD -->
+      <div class="overlay-background hide" id="new-task-page">
         <div class="action-card">
           <div class="action-card__header">
             <h2 class="action-card__title">Add Task</h2>
@@ -74,8 +76,9 @@
             <button class="action-card__btn">Create</button>
           </div>
         </div>
-
+      </div>
         <!-- EDIT TASK CARD -->
+      <div class="overlay-background hide" id="edit-task-page">
         <div class="action-card">
           <div class="action-card__header">
             <h2 class="action-card__title">Edit Task</h2>
@@ -87,8 +90,10 @@
             <button class="action-card__btn">Create</button>
           </div>
         </div>
-
+      </div>
+        
         <!-- EDIT LIST -->
+      <div class="overlay-background hide" id="edit-list-page">
         <div class="action-card action-card--compact">
           <div class="action-card__header">
             <h2 class="action-card__title">Edit List</h2>
@@ -100,8 +105,10 @@
             <button class="action-card__btn">Save</button>
           </div>
         </div>
+      </div>
 
         <!-- CREATE LIST -->
+      <div class="overlay-background hide" id="new-list-page">
         <div class="action-card action-card--compact">
           <div class="action-card__header">
             <h2 class="action-card__title">Create List</h2>
@@ -120,8 +127,9 @@
             <button class="action-card__btn">Create</button>
           </div>
         </div>
-
       </div>
+
+    </div>
 
     </main>
     

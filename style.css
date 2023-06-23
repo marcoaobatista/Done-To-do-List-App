@@ -11,7 +11,8 @@ a{
 body{
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    background-color: #F7F7F7; 
+    background-color: #F7F7F7;
+    height: 100vh;
 }
 hr{
   border: 1px solid #EAEAEA;
@@ -42,6 +43,7 @@ input[type="checkbox"]:checked:before {
   font-size: 14px;
   color: white;
   text-align: center;
+  font-family: 'Inter', sans-serif;
 }
 
 input[type="checkbox"]:checked {
@@ -130,11 +132,11 @@ ion-icon{
     font-size: 30px;
     transition: ease-in-out 200ms;
 }
-.add-task-btn:hover{
+.new-task-btn:hover{
     cursor: pointer;
     transform: scale(1.05);
 }
-.add-task-btn:active{
+.new-task-btn:active{
     transform: scale(0.95);
 }
 
@@ -253,13 +255,22 @@ ion-icon{
   justify-content: space-between;
 }
 
-.list__header__icon {
+.list__header__button{
+  background-color: transparent;
+  border: none;
+}
+
+.list__header__button_icon {
   font-size: 24px;
   color: #a6a6a6;
 }
+.list__header__button_icon:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
 
 
-.background-overlay{
+.overlay-background{
   display: flex;
   z-index: 1;
   position: absolute;
