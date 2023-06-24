@@ -25,11 +25,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let editListBtn = document.getElementById('edit-list-btn');
     editListBtn.addEventListener('click', () => show_action_page('edit-list-page'));
 
-    let taskCards = document.querySelectorAll('.task-card');
-    taskCards.forEach(taskCard => taskCard.addEventListener('click', event => {
-        taskCard.addEventListener('click', () => show_action_page('edit-task-page'));
-    }));
-
     let addListBtn = document.getElementById('new-list-btn');
     addListBtn.addEventListener('click', () => show_action_page('new-list-page'));
 
@@ -46,11 +41,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // impede click from going to overlay
     const actionCards = document.querySelectorAll('.action-card');
     actionCards.forEach(actionCard => actionCard.addEventListener('click', event => {
-        event.stopPropagation();
-    }));
-
-    const checkboxes = document.querySelectorAll('.task-card__checkbox');
-    checkboxes.forEach(checkbox => checkbox.addEventListener('click', event => {
         event.stopPropagation();
     }));
 
@@ -160,24 +150,86 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
     
+
     
     // LOAD PAGE CONTENT
     function load_content(urlListName){
         const transaction = db.transaction(['toDoLists'], 'readwrite');
         const store = transaction.objectStore('toDoLists');
-
+        
         const index = store.index('name');
         const getRequest = index.get(urlListName);
 
-        getRequest.onsuccess = function(e) {
-            const list = e.target.result;
+        getRequest.onsuccess = (e) => {
+            let list = e.target.result;
 
             if (list) {
+                // FILL IN THE PAGE
                 title = document.querySelector('.list__header__title');
                 title.textContent = list.name;
 
+                let completedCount = 0;
+                let incompletedCount = 0;
+                
+                incompletedUl = document.getElementById('incompleted-ul');
+                incompletedUl.innerHTML = '';
+
+                list.tasks.forEach(task => {
+                    let listItem = document.createElement("li");
+                    listItem.className = "task-card";
+
+                    if (task.completed){
+                        completedCount += 1;
+                    }else{
+                        incompletedCount += 1;
+                    }
+                    tasksHeading = document.getElementById('tasks-heading');
+                    tasksHeading.textContent = `Tasks - ${incompletedCount}`
+                    tasksHeading = document.getElementById('completed-heading');
+                    tasksHeading.textContent = `Tasks - ${completedCount}`
+
+                    let dueSpan = '';
+                    if (task.due != "Invalid Date"){
+                        dueSpan = `<span class="task-card__date">${task.due.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>`
+                    }
+                    listItem.innerHTML = `
+                        <input type="checkbox" id="task1" class="task-card__checkbox"/>
+                        <div class="task-card__content">
+                            <span class="task-card__title">${task.name}</span>
+                            ${dueSpan}
+                        </div>
+                    `
+                    incompletedUl.appendChild(listItem);
+
+                    let taskCards = document.querySelectorAll('.task-card');
+                    taskCards.forEach(taskCard => taskCard.addEventListener('click', event => {
+                        show_action_page('edit-task-page');
+                    }));
+
+                    const checkboxes = document.querySelectorAll('.task-card__checkbox');
+                    checkboxes.forEach(checkbox => checkbox.addEventListener('click', event => {
+                        event.stopPropagation();
+                    }));
+                });
+
             } else {
                 console.log('List not found');
+                let cursorRequest = store.openCursor();
+
+                cursorRequest.onsuccess = (e) => {
+                    list = e.target.result.value;
+                    if (list) {
+                        // FILL IN THE PAGE
+                        console.log('Another list found');
+                        window.location.href = `#${list.name}`;
+                        title = document.querySelector('.list__header__title');
+                        title.textContent = list.name;
+                    }                    
+                }
+                cursorRequest.onerror = (e) => {
+                    console.log('Error', e.target.error.name);
+                };
+                
             }
         };
         getRequest.onerror = function(e) {
@@ -197,10 +249,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         dateInput = document.getElementById('add-task-date-input');
         dateValue = dateInput.value;
-
+        
         create_task(urlListName, {id: 0, name: taskName, due: new Date(dateValue), completed: false })
             .then(() => {
-                location.reload();
+                // location.reload();
+                load_content(urlListName);
+                
             })
             .catch((error) => {
                 console.error('Error adding task:', error);
@@ -224,3 +278,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
 });
+
+
+
+
+// make check animated, animate with css and update database, without refreshing

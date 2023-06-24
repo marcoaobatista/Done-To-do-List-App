@@ -43,23 +43,24 @@
             <ion-icon class="list__header__button_icon" name="ellipsis-horizontal"></ion-icon>
           </button>
         </div>
-        
         <hr />
+       
         <section class="list__tasks">
-          <h2 class="list__tasks__title">Tasks - 0</h2>
-          <ul>
-            <li class="task-card">
+          <h2 class="list__tasks__title" id="tasks-heading">Tasks - 0</h2>
+          <ul id="incompleted-ul">
+            <!-- <li class="task-card">
               <input type="checkbox" id="task1" class="task-card__checkbox"/>
               <div class="task-card__content">
                 <span class="task-card__title">Todo list item</span>
                 <span class="task-card__date">mon., jan 01 2023</span>
               </div>
-            </li>
+            </li> -->
           </ul>
         </section>
 
         <section class="list__completed">
-          <h2 class="list__tasks__title">Completed - 0</h2>
+          <h2 class="list__tasks__title" id="completed-heading">Completed - 0</h2>
+          <ul id="completed-ul"></ul>
         </section>
       </div>
 
