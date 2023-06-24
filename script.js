@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //     ]
     // }    
     
-    const listId = window.location.hash.substring(1);
+    const urlListName = window.location.hash.substring(1);
 
     // INDEXEDDB CODE
-    const request = indexedDB.open("DoneTodoList", 2);
+    const request = indexedDB.open("DoneTodoList", 1);
     let db;
 
     request.onerror = e => {
@@ -80,39 +80,47 @@ document.addEventListener('DOMContentLoaded', (event) => {
     request.onsuccess = e => {
         console.log("Opened db");
         db = e.target.result;
+
+        load_content(urlListName);
+        
     };
 
     request.onupgradeneeded = e => {
         let db = e.target.result;
         if (!db.objectStoreNames.contains('toDoLists')) {
-          db.createObjectStore('toDoLists', { keyPath: 'id', autoIncrement: true});
+            const listStore = db.createObjectStore('toDoLists', { keyPath: 'id', autoIncrement: true });
+            listStore.createIndex('name', 'name', { unique: true });
         }
         alert("On onupgradeneeded");
     };
 
 
-    function create_list(listName, tasks){
-        const transaction = db.transaction(['toDoLists'], 'readwrite');
-        const store = transaction.objectStore('toDoLists');
-        const request = store.add({name: listName, tasks: tasks});
-    
-        request.onsuccess = (e) => {
-            console.log("List added to the store", e);
-        };
-    
-        request.onerror = (e) => {
-
-            console.log("Error", e.target.error.name);
-        };
+    function create_list(listName){
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['toDoLists'], 'readwrite');
+            const store = transaction.objectStore('toDoLists');
+            const request = store.add({name: listName, tasks: []});
+            
+            request.onsuccess = (e) => {
+                console.log("List added to the store", e);
+                resolve();
+            };
+            request.onerror = (e) => {
+                console.log("Error", e.target.error.name);
+                reject(e.target.error.name);
+            };
+        });
     }
 
-    function create_task(listId, task) {
+
+    function create_task(listName, task) {
         return new Promise((resolve, reject) => {
             const transaction = db.transaction(['toDoLists'], 'readwrite');
             const store = transaction.objectStore('toDoLists');
     
             // First, retrieve the list from the object store
-            const getRequest = store.get(listId);
+            const index = store.index('name');
+            const getRequest = index.get(listName);
     
             getRequest.onsuccess = function(e) {
                 const list = e.target.result;
@@ -153,27 +161,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     
     
-    
+    // LOAD PAGE CONTENT
+    function load_content(urlListName){
+        const transaction = db.transaction(['toDoLists'], 'readwrite');
+        const store = transaction.objectStore('toDoLists');
 
+        const index = store.index('name');
+        const getRequest = index.get(urlListName);
 
-    
-    document.querySelector('.list__tasks__title').addEventListener('click', () => {
-        console.log('general created')
-        create_list('General', [
-            { id: 1, name: 'buy groceries', due: new Date('2024-06-30'), completed: false },
-            { id: 2, name: 'commemorate birthday', due: new Date('2024-02-19'), completed: false },
-            { id: 3, name: 'do whatever', due: new Date('2023-09-19'), completed: false }
-        ]);
-    });
+        getRequest.onsuccess = function(e) {
+            const list = e.target.result;
 
+            if (list) {
+                title = document.querySelector('.list__header__title');
+                title.textContent = list.name;
 
-    // check what list user is viewing
-    // call create task with the values of the inputs
+            } else {
+                console.log('List not found');
+            }
+        };
+        getRequest.onerror = function(e) {
+            console.log('Error', e.target.error.name);
+        };
+    }
+
 
 
     // HANDLE FORMS SUBMISSIONS
     const createTaskForm = document.getElementById('add-task-form');
-    createTaskForm.addEventListener('submit', function(e) {
+    createTaskForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         taskInput = document.getElementById('add-task-text-input');
@@ -182,7 +198,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
         dateInput = document.getElementById('add-task-date-input');
         dateValue = dateInput.value;
 
-        create_task(1, {id: 0, name: taskName, due: new Date(dateValue), completed: false })
+        create_task(urlListName, {id: 0, name: taskName, due: new Date(dateValue), completed: false })
+            .then(() => {
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error adding task:', error);
+            });
+    });
+
+    const createListForm = document.getElementById('add-list-form');
+    createListForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        listInput = document.getElementById('create-list-text-input');
+        listName = listInput.value;
+
+        create_list(listName)
             .then(() => {
                 location.reload();
             })
