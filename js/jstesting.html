@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS testing</title>
+    <script src="indexedDB.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            idb = new IndexedDB("DoneTodoList", 1, "toDoLists");
+            await idb.initDB();
+            
+            // Get the todo lists from the database
+            const lists = await idb.getAll();
+            const list = await idb.getList("tomorrow");
+            console.log(list);
+        });
+    </script>
+</head>
+<body>
+    JS Testing
+</body>
+</html>

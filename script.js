@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function create_list_gui(list){
         listsLinkUl = document.getElementById('lists-link-ul');
-        
+
         listLinkHtml = `
         <li>
             <a href="#${list.name}" class="list-link" id="${list.name}-anchor">
@@ -358,6 +358,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
 // TODO LIST (lol)-----
 // make complete animated, animate with css and update database, without refreshing
 // separate refresh list and refresh nav
-
-
-
