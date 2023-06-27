@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //     ]
     // }    
     
-    const urlListName = window.location.hash.substring(1);
+    let urlListName = window.location.hash.substring(1);
 
     // INDEXEDDB CODE
     const request = indexedDB.open("DoneTodoList", 1);
@@ -71,7 +71,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         console.log("Opened db");
         db = e.target.result;
 
-        load_content(urlListName);
+        load_list(urlListName);
+        load_list_links();
         
     };
 
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
 
 
-    function create_list(listName){
+    function db_create_list(listName){
         return new Promise((resolve, reject) => {
             const transaction = db.transaction(['toDoLists'], 'readwrite');
             const store = transaction.objectStore('toDoLists');
@@ -151,12 +152,59 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     
 
-    
-    // LOAD PAGE CONTENT
-    function load_content(urlListName){
+    function load_list_links(){
         const transaction = db.transaction(['toDoLists'], 'readwrite');
         const store = transaction.objectStore('toDoLists');
         
+        let cursorRequest = store.openCursor();
+
+        // FILL LIST LINKS
+        listsLinkUl = document.getElementById('lists-link-ul');
+        listsLinkUl.innerHTML = '';
+        cursorRequest.onsuccess = (e) => {
+            list = e.target.result;
+            if (list){
+                create_list_gui(list.value);
+                list.continue();
+            }
+        }
+        cursorRequest.onerror = (e) => {
+            console.log('Error', e.target.error.name);
+        };
+    }
+
+
+    function create_list_gui(list){
+        listsLinkUl = document.getElementById('lists-link-ul');
+        
+        listLinkHtml = `
+        <li>
+            <a href="#${list.name}" class="list-link" id="${list.name}-anchor">
+            <ion-icon name="list-outline" class="list-link__icon"></ion-icon>
+            <div class="list-link__content">
+                <span class="list-link__title">${list.name}</span>
+                <span class="list-link__tasks-count">${list.tasks.length} Tasks</span>
+            </div>
+            </a>
+        </li>
+        `
+        listsLinkUl.innerHTML +=  listLinkHtml;
+
+        listLinks = document.querySelectorAll('.list-link');
+        listLinks.forEach(listLink => {
+            listLink.addEventListener('click', (e) => {
+                load_list(listLink.id.replace('-anchor', ''));
+                urlListName = window.location.hash.substring(1);
+            });
+        });
+    }
+
+    
+    // LOAD PAGE CONTENT
+    function load_list(urlListName){
+        const transaction = db.transaction(['toDoLists'], 'readwrite');
+        const store = transaction.objectStore('toDoLists');
+
         const index = store.index('name');
         const getRequest = index.get(urlListName);
 
@@ -164,10 +212,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             let list = e.target.result;
 
             if (list) {
-                // FILL IN THE PAGE
+                // FILL LIST TITLE
                 title = document.querySelector('.list__header__title');
                 title.textContent = list.name;
 
+                // FILL TASKS
                 let completedCount = 0;
                 let incompletedCount = 0;
                 
@@ -177,6 +226,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 list.tasks.forEach(task => {
                     let listItem = document.createElement("li");
                     listItem.className = "task-card";
+                    listItem.id = `task${task.id}`;
 
                     if (task.completed){
                         completedCount += 1;
@@ -192,8 +242,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     if (task.due != "Invalid Date"){
                         dueSpan = `<span class="task-card__date">${task.due.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>`
                     }
+
                     listItem.innerHTML = `
-                        <input type="checkbox" id="task1" class="task-card__checkbox"/>
+                        <input type="checkbox" class="task-card__checkbox"/>
                         <div class="task-card__content">
                             <span class="task-card__title">${task.name}</span>
                             ${dueSpan}
@@ -238,6 +289,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
 
+    document.getElementById('functester').addEventListener('click', () => {
+        complete_task(1);
+    });
+    function complete_task(taskId){
+        let completedUl = document.getElementById('completed-ul');
+        let taskCard = document.getElementById(`task${taskId}`);
+
+        taskCard.classList.add('fade-out');
+
+        setTimeout(() => {
+            completedUl.appendChild(taskCard);
+            taskCard.classList.remove('fade-out');
+        }, 600);
+
+        setTimeout(() => {
+            taskCard.classList.add('fade-in');
+            
+        }, 600);
+        taskCard.classList.remove('fade-in');
+    }
+
+    
+
 
     // HANDLE FORMS SUBMISSIONS
     const createTaskForm = document.getElementById('add-task-form');
@@ -253,7 +327,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         create_task(urlListName, {id: 0, name: taskName, due: new Date(dateValue), completed: false })
             .then(() => {
                 // location.reload();
-                load_content(urlListName);
+                load_list(urlListName);
                 
             })
             .catch((error) => {
@@ -268,7 +342,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         listInput = document.getElementById('create-list-text-input');
         listName = listInput.value;
 
-        create_list(listName)
+        db_create_list(listName)
             .then(() => {
                 location.reload();
             })
@@ -281,5 +355,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+// TODO LIST (lol)-----
+// make complete animated, animate with css and update database, without refreshing
+// separate refresh list and refresh nav
 
-// make check animated, animate with css and update database, without refreshing
+
+

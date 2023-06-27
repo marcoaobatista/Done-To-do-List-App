@@ -15,20 +15,20 @@
       <a class="nav-open">&#9776;</a>
       <nav class="nav">
         <div class="nav__header">
-          <img src="DoneLogo.svg" alt="Done Logo" />
+          <img src="DoneLogo.svg" alt="Done Logo" id="logoid" />
           <a class="nav__close-btn">&times;</a>
         </div>
 
-        <ul>
-          <li>
+        <ul id="lists-link-ul">
+          <!-- <li>
             <a href="#General" class="list-link">
-              <ion-icon name="school-outline" class="list-link__icon"></ion-icon>
+              <ion-icon name="list-outline" class="list-link__icon"></ion-icon>
               <div class="list-link__content">
                 <span class="list-link__title">List Name</span>
                 <span class="list-link__tasks-count">0 Tasks</span>
               </div>
             </a>
-          </li>
+          </li> -->
         </ul>
 
         <button class="nav__new-list-btn" id="new-list-btn">Add list</button>
@@ -122,12 +122,12 @@
             <h2 class="action-card__title">Create List</h2>
           </div>
           <div class="action-card__content">
-            <div class="action-card__select-icon">
+            <!-- <div class="action-card__select-icon">
               <label class="action-card__text-input-label" for="">Icon:</label>
               <div class="action-card__icon--padded">
                 <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
               </div>
-            </div>
+            </div> -->
             <div class="">
               <label class="action-card__text-input-label" for="create-list-text-input">List Name:</label>
               <input type="text" class="action-card__text-input" id="create-list-text-input" name="list-name" required>
@@ -143,5 +143,17 @@
     </main>
     
     <button class="new-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
+
+
+    <button id="functester">test function</button>
+    <style>
+      #functester{
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: lightblue;
+        margin: 20px;
+      }
+    </style>
   </body>
 </html>
