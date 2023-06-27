@@ -1,4 +1,4 @@
-class IndexedDB {
+export class IndexedDB {
     constructor(dbName, version, storeName) {
       this.dbName = dbName;
       this.version = version;
@@ -75,6 +75,26 @@ class IndexedDB {
             request.onerror = (event) => {
                 reject('Error', event.target.error);
             }
+        });
+    }
+
+    async getFirstListName(){
+        /** */
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            const cursor = store.openCursor();
+
+            cursor.onsuccess = (e) => {
+                let list = e.target.result.value;
+                if (list) {
+                    resolve(list.name);
+                }                    
+            }
+            cursor.onerror = (e) => {
+                console.log('Error', e.target.error.name);
+                reject('Error', e.target.error.name);
+            };
         });
     }
   }

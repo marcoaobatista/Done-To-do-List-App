@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     tasksHeading = document.getElementById('tasks-heading');
                     tasksHeading.textContent = `Tasks - ${incompletedCount}`
                     tasksHeading = document.getElementById('completed-heading');
-                    tasksHeading.textContent = `Tasks - ${completedCount}`
+                    tasksHeading.textContent = `Completed - ${completedCount}`
 
                     let dueSpan = '';
                     if (task.due != "Invalid Date"){

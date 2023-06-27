@@ -168,6 +168,8 @@ ion-icon{
   justify-content: space-between;
 }
 .nav__close-btn{
+  border: none;
+  background-color: transparent;
   appearance: none;
   font-size: 34px;
   color: #a6a6a6;
@@ -236,6 +238,8 @@ ion-icon{
 
 
 .nav-open{
+  border: none;
+  background-color: transparent;
   font-size: 30px;
   color: #a6a6a6;
   position:fixed;
