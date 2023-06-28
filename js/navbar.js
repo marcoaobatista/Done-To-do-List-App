@@ -13,7 +13,6 @@ export class NavBar{
     }
 
     open(){
-        console.log('sadfsdf');
         this.navBar.style.width = '250px';
         this.list.style.marginLeft = '250px';
     }

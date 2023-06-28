@@ -150,5 +150,54 @@ export class IndexedDB {
             };
         });
     }
+
+    async completeTask(listName, taskId){
+        /** */
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+    
+            // First, retrieve the list from the object store
+            const request = store.get(listName);
+    
+            request.onsuccess = function(e) {
+                const list = e.target.result;
+    
+                if (list) {
+                    // Find the task in the tasks array
+                    const task = list.tasks.find(task => task.id === taskId);
+    
+                    if (task) {
+                        // Set the task's completed status to true
+                        task.completed = true;
+    
+                        // Then, put the updated list back into the object store
+                        const putRequest = store.put(list);
+    
+                        putRequest.onsuccess = function(e) {
+                            console.log('Task marked as completed', e);
+                            resolve(); // Operation completed successfully, resolve the promise
+                        };
+    
+                        putRequest.onerror = function(e) {
+                            console.log('Error', e.target.error.name);
+                            reject(e.target.error); // An error occurred, reject the promise
+                        };
+                    } else {
+                        console.log('Task not found');
+                        reject(new Error('Task not found')); // Task not found, reject the promise
+                    }
+                } else {
+                    console.log('List not found');
+                    reject(new Error('List not found')); // List not found, reject the promise
+                }
+            };
+    
+            request.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
+            };
+        });
+    }
   }
   

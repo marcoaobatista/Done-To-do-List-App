@@ -24,29 +24,45 @@ export class List{
         this.completedUl.innerHTML = '';
 
         list.tasks.forEach(task => {
-            let dueSpan = '';
-            if (task.due != "Invalid Date"){
-                let date = task.due.toLocaleDateString('en-US', 
-                    { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                dueSpan = `<span class="task-card__date">${date}</span>`
+            let taskCard = document.createElement("li");
+            taskCard.className = "task-card";
+
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `task${task.id}`;
+            checkbox.className = "task-card__checkbox";
+
+            let contentDiv = document.createElement("div");
+            contentDiv.className = "task-card__content";
+
+            let titleSpan = document.createElement("span");
+            titleSpan.className = "task-card__title";
+            titleSpan.textContent = task.name;
+
+            contentDiv.appendChild(titleSpan);
+
+            if (task.due != "Invalid Date") {
+                let date = task.due.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+
+                let dueSpan = document.createElement("span");
+                dueSpan.className = "task-card__date";
+                dueSpan.textContent = date;
+                contentDiv.appendChild(dueSpan);
             }
-            let taskCard = `
-            <li class="task-card">
-                <input type="checkbox" id="task1" class="task-card__checkbox"/>
-                <div class="task-card__content">
-                    <span class="task-card__title">${task.name}</span>
-                    ${dueSpan}
-                </div>
-            </li>
-            `
+
+            taskCard.appendChild(checkbox);
+            taskCard.appendChild(contentDiv);
+
+            checkbox.addEventListener('change', () => {
+                console.log('change');
+            });
 
             if (!task.completed){
-                this.incompletedUl.innerHTML += taskCard;
-            }else{
-                this.completedUl.innerHTML += taskCard
+                this.incompletedUl.appendChild(taskCard);
+            } else {
+                this.completedUl.appendChild(taskCard);
             }
         });
-        
     }
 
     completeTask(listName, taskId){

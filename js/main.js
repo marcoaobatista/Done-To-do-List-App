@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     navBar.render(lists);
 
     const todoList = new List(idb);
-    todoList.render(idb, listName);
+    await todoList.render(idb, listName);
 
     // // Render the first list by default or a blank list if no lists exist yet
     // if (lists.length > 0) {
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // } else {
     //     renderList(null);
     // }
-
 
     // Listen to changes in URL
     window.addEventListener('hashchange', async () => {
