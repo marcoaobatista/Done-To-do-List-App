@@ -21,7 +21,7 @@ export class IndexedDB {
 
             request.onsuccess = (event) => {
                 this.db = event.target.result;
-                console.log('success');
+                console.log('Successfully Connected to Database');
                 resolve();
             };
 
@@ -86,14 +86,67 @@ export class IndexedDB {
             const cursor = store.openCursor();
 
             cursor.onsuccess = (e) => {
-                let list = e.target.result.value;
-                if (list) {
+                let list;
+                if (e && e.target && e.target.result){
+                    list = e.target.result.value;
                     resolve(list.name);
-                }                    
+                }else{
+                    reject('Error No List on the Database');
+                }
             }
             cursor.onerror = (e) => {
                 console.log('Error', e.target.error.name);
                 reject('Error', e.target.error.name);
+            };
+        });
+    }
+
+    async createTask(listName, taskName, dueDate){
+        /** */
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+    
+            // First, retrieve the list from the object store
+            const index = store.index('name');
+            const getRequest = index.get(listName);
+    
+            let task = {id: 0, name: taskName, due: new Date(dueDate), completed: false }
+
+            getRequest.onsuccess = function(e) {
+                const list = e.target.result;
+    
+                if (list) {
+                    // Find the max id in the existing tasks
+                    let maxId = list.tasks.reduce((max, task) => Math.max(max, task.id), 0);
+    
+                    // Assign a new id to the new task
+                    task.id = maxId + 1;
+                    
+                    // Add the new task to the tasks array
+                    list.tasks.push(task);
+    
+                    // Then, put the updated list back into the object store
+                    const putRequest = store.put(list);
+    
+                    putRequest.onsuccess = function(e) {
+                        console.log('Task added to list', e);
+                        resolve(); // Operation completed successfully, resolve the promise
+                    };
+    
+                    putRequest.onerror = function(e) {
+                        console.log('Error', e.target.error.name);
+                        reject(e.target.error); // An error occurred, reject the promise
+                    };
+                } else {
+                    console.log('List not found');
+                    reject(new Error('List not found')); // List not found, reject the promise
+                }
+            };
+    
+            getRequest.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
             };
         });
     }

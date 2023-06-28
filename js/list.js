@@ -5,7 +5,20 @@ export class List{
         this.completedUl = document.querySelector('#completed-ul');
     }
 
-    render(list){
+    async render(idb, listName){
+        // Get the todo list from the database and make sure that 
+        let list = await idb.getList(listName).catch(()=>{
+            console.log('List Name Not in Database');
+        });
+        if (!list){
+            listName = await idb.getFirstListName().catch(()=>{
+                // display no list in db page
+            });
+                
+            list = await idb.getList(listName);
+            window.location.href = `#${listName}`;
+        }
+
         this.title.textContent = list.name;
         this.incompletedUl.innerHTML = '';
         this.completedUl.innerHTML = '';
@@ -36,12 +49,12 @@ export class List{
         
     }
 
-    completeTask(){
+    completeTask(listName, taskId){
 
     }
 
     addTask(){
-
+        
     }
 
     deleteTask(){
