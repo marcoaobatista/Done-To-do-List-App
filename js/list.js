@@ -5,6 +5,8 @@ export class List{
         this.title = document.querySelector('.list__header__title');
         this.incompletedUl = document.querySelector('#incompleted-ul');
         this.completedUl = document.querySelector('#completed-ul');
+        this.tasksHeading = document.querySelector('#tasks-heading');
+        this.completedHeading = document.querySelector('#completed-heading');
     }
 
     async render(){
@@ -23,10 +25,24 @@ export class List{
         }
 
         this.title.textContent = list.name;
+
+        let completedCount = 0;
+        let incompletedCount = 0;
+
         this.incompletedUl.innerHTML = '';
         this.completedUl.innerHTML = '';
 
         list.tasks.forEach(task => {
+
+            if (task.completed){
+                completedCount += 1;
+            }else{
+                incompletedCount += 1;
+            }
+            this.tasksHeading.textContent = `Tasks - ${incompletedCount}`
+            this.completedHeading.textContent = `Completed - ${completedCount}`
+
+
             let taskCard = document.createElement("li");
             taskCard.className = "task-card";
             taskCard.id = `task${task.id}-card`;
@@ -74,30 +90,32 @@ export class List{
     async toggleTaskStatus(taskId){
         let listName = window.location.hash.substring(1);
 
-        await this.idb.toggleTaskStatus(listName, taskId).then(()=>{
-            // if checked, move to completed. Otherwise, move to tasks
-            let incompletedUl = document.getElementById('incompleted-ul');
-            let completedUl = document.getElementById('completed-ul');
-            let taskCard = document.getElementById(`task${taskId}-card`);
+        await this.idb.toggleTaskStatus(listName, taskId);
 
-            taskCard.classList.add('fade-out');
+        // if checked, move to completed. Otherwise, move to tasks
+        let incompletedUl = document.getElementById('incompleted-ul');
+        let completedUl = document.getElementById('completed-ul');
+        let taskCard = document.getElementById(`task${taskId}-card`);
 
-            setTimeout(() => {
-                if (incompletedUl.contains(taskCard)){
-                    completedUl.appendChild(taskCard);
-                }else{
-                    incompletedUl.prepend(taskCard)
-                }
-                taskCard.classList.remove('fade-out');
-            }, 600);
+        taskCard.classList.add('fade-out');
 
-            setTimeout(() => {
-                taskCard.classList.add('fade-in');
-                
-            }, 600);
-            taskCard.classList.remove('fade-in');
-        });
-        
+        setTimeout(() => {
+            if (incompletedUl.contains(taskCard)){
+                completedUl.appendChild(taskCard);
+            }else{
+                incompletedUl.prepend(taskCard)
+            }
+            taskCard.classList.remove('fade-out');
+        }, 600);
+
+        setTimeout(() => {
+            taskCard.classList.add('fade-in');
+            
+        }, 600);
+        taskCard.classList.remove('fade-in');
+
+        // update taskCounters
+
         
     }
 
