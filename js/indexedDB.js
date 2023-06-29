@@ -151,25 +151,25 @@ export class IndexedDB {
         });
     }
 
-    async completeTask(listName, taskId){
+    async toggleTaskStatus(listName, taskId){
         /** */
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([this.storeName], 'readwrite');
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
     
             // First, retrieve the list from the object store
-            const request = store.get(listName);
-    
+            const index = store.index('name');
+            const request = index.get(listName);
+
             request.onsuccess = function(e) {
                 const list = e.target.result;
-    
                 if (list) {
                     // Find the task in the tasks array
-                    const task = list.tasks.find(task => task.id === taskId);
-    
+                    const task = list.tasks.find(task => task.id === Number(taskId));
+                    // console.log(taskId);
                     if (task) {
-                        // Set the task's completed status to true
-                        task.completed = true;
+                        // Toggle task's completed status
+                        task.completed = !task.completed;
     
                         // Then, put the updated list back into the object store
                         const putRequest = store.put(list);

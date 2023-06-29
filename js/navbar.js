@@ -1,6 +1,6 @@
 export class NavBar{
-    constructor(db){
-        this.db = db;
+    constructor(idb){
+        this.idb = idb;
 
         this.openBtn = document.querySelector('.nav-open');
         this.closeBtn = document.querySelector('.nav__close-btn');
@@ -21,7 +21,10 @@ export class NavBar{
         this.list.style.marginLeft= '0';
     }
 
-    render(lists){
+    async render(){
+         // Get the todo lists from the database
+        const lists = await this.idb.getAll();
+
         lists.forEach(list => {
             let completedTasks = list.tasks.filter(task => !task.completed).length;
             let listLinkHtml = `
