@@ -3,16 +3,18 @@ import { NavBar } from './navbar.js';
 import { List } from './list.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const storeName = "toDoLists";
+    const dbName = "DoneTodoList";
 
     // Initialize the IndexedDB
-    const idb = new IndexedDB("DoneTodoList", 1, "toDoLists");
+    const idb = new IndexedDB(dbName, 1, storeName);
     await idb.initDB();
     
     // Create and render the navbar
     const navBar = new NavBar(idb);
     navBar.render();
 
-    const todoList = new List(idb);
+    const todoList = new List(idb, storeName);
     await todoList.render();
 
     // // Render the first list by default or a blank list if no lists exist yet

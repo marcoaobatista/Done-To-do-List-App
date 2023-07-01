@@ -1,6 +1,7 @@
 export class List{
-    constructor(idb){
+    constructor(idb, storeName){
         this.idb = idb;
+        this.storeName = storeName;
 
         this.title = document.querySelector('.list__header__title');
         this.incompletedUl = document.querySelector('#incompleted-ul');
@@ -88,10 +89,10 @@ export class List{
             taskCard.appendChild(contentDiv);
             taskCard.appendChild(deleteBtn);
 
-            taskCard.addEventListener('mouseover', ()=>deleteBtn.style.display = "block");
+            taskCard.addEventListener('mouseover', ()=>deleteBtn.style.display = "flex");
             taskCard.addEventListener('mouseout', ()=>deleteBtn.style.display = "none");
 
-            deleteBtn.addEventListener('click', ()=>this.deleteTask());
+            deleteBtn.addEventListener('click', ()=>this.deleteTask(task.id));
 
             checkbox.addEventListener('change', (event) => {
                 let taskId = event.target.id.replace('task', '').replace('-checkbox', '');
@@ -144,7 +145,10 @@ export class List{
         
     }
 
-    deleteTask(){
-
+    async deleteTask(taskId){
+        await this.idb.deleteTask(taskId).then(()=>{
+            let taskCard = document.getElementById(`task${taskId}-card`);
+            taskCard.remove();
+        });
     }
 }

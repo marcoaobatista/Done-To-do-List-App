@@ -199,5 +199,56 @@ export class IndexedDB {
             };
         });
     }
+
+    async deleteTask(taskId){
+        return new Promise((resolve, reject) => {
+            let listName = window.location.hash.substring(1);
+
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+
+            // First, retrieve the list from the object store
+            const index = store.index('name');
+            const getRequest = index.get(listName);
+
+            getRequest.onsuccess = function(e) {
+                const list = e.target.result;
+                console.log(list);
+                if (list) {
+                    // Find the index of the task in the tasks array
+                    const taskIndex = list.tasks.findIndex(task => task.id === taskId);
+
+                    if (taskIndex !== -1) {
+                        // Remove the task from the tasks array
+                        list.tasks.splice(taskIndex, 1);
+
+                        // Then, put the updated list back into the object store
+                        const putRequest = store.put(list);
+
+                        putRequest.onsuccess = function(e) {
+                            console.log('Task deleted', e);
+                            resolve(); // Operation completed successfully, resolve the promise
+                        };
+
+                        putRequest.onerror = function(e) {
+                            console.log('Error', e.target.error.name);
+                            reject(e.target.error); // An error occurred, reject the promise
+                        };
+                    } else {
+                        console.log('Task not found');
+                        reject(new Error('Task not found')); // Task not found, reject the promise
+                    }
+                } else {
+                    console.log('List not found');
+                    reject(new Error('List not found')); // List not found, reject the promise
+                }
+            };
+
+            getRequest.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
+            };
+        });
+    }
   }
   
