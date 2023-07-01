@@ -88,11 +88,15 @@ ion-icon{
     border-radius: 14px;
     display: flex;
     margin-bottom: 14px;
+    justify-content: space-between;
 }
 .task-card:hover{
     box-shadow: 0px 7px 17px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transform: translateY(-2px);
+}
+.task-card__content{
+  display: flex;
 }
 
 .task-card__checkbox{
@@ -111,9 +115,28 @@ ion-icon{
     font-size: 12px;
     color: #a6a6a6;
 }
-.task-card__content{
-    display: inline-block;
+.task-card__text-content{
     margin: 16px 16px 16px 0px;
+}
+
+.task-card__delete-btn{
+  display: none;
+  background-color: transparent;
+  border: none;
+  transition: 1000ms;
+}
+.task-card__delete-btn:hover{
+  cursor: pointer;
+}
+
+.task-card__delete-btn_icon{
+  font-size: 20px;
+  padding: 10px 20px;
+  color: #A6A6A6;
+  transition: 400ms;
+}
+.task-card__delete-btn_icon:hover{
+  color: #FF2B2B;
 }
 
 .new-task-btn{

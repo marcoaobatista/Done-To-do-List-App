@@ -47,19 +47,22 @@ export class List{
             taskCard.className = "task-card";
             taskCard.id = `task${task.id}-card`;
 
+            let contentDiv = document.createElement("div");
+            contentDiv.className = "task-card__content";
+
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = `task${task.id}-checkbox`;
             checkbox.className = "task-card__checkbox";
 
-            let contentDiv = document.createElement("div");
-            contentDiv.className = "task-card__content";
+            let textContentDiv = document.createElement("div");
+            textContentDiv.className = "task-card__text-content";
 
             let titleSpan = document.createElement("span");
             titleSpan.className = "task-card__title";
             titleSpan.textContent = task.name;
 
-            contentDiv.appendChild(titleSpan);
+            textContentDiv.appendChild(titleSpan);
 
             if (task.due != "Invalid Date") {
                 let date = task.due.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
@@ -67,11 +70,28 @@ export class List{
                 let dueSpan = document.createElement("span");
                 dueSpan.className = "task-card__date";
                 dueSpan.textContent = date;
-                contentDiv.appendChild(dueSpan);
+                textContentDiv.appendChild(dueSpan);
             }
 
-            taskCard.appendChild(checkbox);
+            contentDiv.appendChild(checkbox);
+            contentDiv.appendChild(textContentDiv);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.className = "task-card__delete-btn";
+
+            let deleteIcon = document.createElement("ion-icon");
+            deleteIcon.className = "task-card__delete-btn_icon";
+            deleteIcon.name = "close";
+
+            deleteBtn.appendChild(deleteIcon);
+
             taskCard.appendChild(contentDiv);
+            taskCard.appendChild(deleteBtn);
+
+            taskCard.addEventListener('mouseover', ()=>deleteBtn.style.display = "block");
+            taskCard.addEventListener('mouseout', ()=>deleteBtn.style.display = "none");
+
+            deleteBtn.addEventListener('click', ()=>this.deleteTask());
 
             checkbox.addEventListener('change', (event) => {
                 let taskId = event.target.id.replace('task', '').replace('-checkbox', '');
@@ -115,7 +135,8 @@ export class List{
         taskCard.classList.remove('fade-in');
 
         // update taskCounters
-
+        // this.tasksHeading.textContent = `Tasks - ${}`;
+        // this.completedHeading.textContent = `Completed - ${}`;
         
     }
 
