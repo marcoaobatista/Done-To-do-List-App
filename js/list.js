@@ -1,3 +1,5 @@
+import * as components from './components.js';
+
 export class List{
     constructor(idb, storeName){
         this.idb = idb;
@@ -33,7 +35,7 @@ export class List{
         this.incompletedUl.innerHTML = '';
         this.completedUl.innerHTML = '';
 
-        list.tasks.forEach(task => {
+        list.tasks.reverse().forEach(task => {
 
             if (task.completed){
                 completedCount += 1;
@@ -43,61 +45,7 @@ export class List{
             this.tasksHeading.textContent = `Tasks - ${incompletedCount}`
             this.completedHeading.textContent = `Completed - ${completedCount}`
 
-
-            let taskCard = document.createElement("li");
-            taskCard.className = "task-card";
-            taskCard.id = `task${task.id}-card`;
-
-            let contentDiv = document.createElement("div");
-            contentDiv.className = "task-card__content";
-
-            let checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = `task${task.id}-checkbox`;
-            checkbox.className = "task-card__checkbox";
-
-            let textContentDiv = document.createElement("div");
-            textContentDiv.className = "task-card__text-content";
-
-            let titleSpan = document.createElement("span");
-            titleSpan.className = "task-card__title";
-            titleSpan.textContent = task.name;
-
-            textContentDiv.appendChild(titleSpan);
-
-            if (task.due != "Invalid Date") {
-                let date = task.due.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-
-                let dueSpan = document.createElement("span");
-                dueSpan.className = "task-card__date";
-                dueSpan.textContent = date;
-                textContentDiv.appendChild(dueSpan);
-            }
-
-            contentDiv.appendChild(checkbox);
-            contentDiv.appendChild(textContentDiv);
-
-            let deleteBtn = document.createElement("button");
-            deleteBtn.className = "task-card__delete-btn";
-
-            let deleteIcon = document.createElement("ion-icon");
-            deleteIcon.className = "task-card__delete-btn_icon";
-            deleteIcon.name = "close";
-
-            deleteBtn.appendChild(deleteIcon);
-
-            taskCard.appendChild(contentDiv);
-            taskCard.appendChild(deleteBtn);
-
-            taskCard.addEventListener('mouseover', ()=>deleteBtn.style.display = "flex");
-            taskCard.addEventListener('mouseout', ()=>deleteBtn.style.display = "none");
-
-            deleteBtn.addEventListener('click', ()=>this.deleteTask(task.id));
-
-            checkbox.addEventListener('change', (event) => {
-                let taskId = event.target.id.replace('task', '').replace('-checkbox', '');
-                this.toggleTaskStatus(taskId);
-            });
+            let taskCard = components.taskCardElement(this, task.name, task.id, task.due);
 
             if (!task.completed){
                 this.incompletedUl.appendChild(taskCard);
@@ -141,8 +89,11 @@ export class List{
         
     }
 
-    addTask(){
-        
+    async addTask(taskName, dueDate){
+        await this.idb.addTask(taskName, dueDate).then((taskId)=>{
+            let taskCard = components.taskCardElement(this, taskName, taskId, new Date(dueDate));
+            this.incompletedUl.prepend(taskCard);
+        });
     }
 
     async deleteTask(taskId){

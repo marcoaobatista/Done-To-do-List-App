@@ -24,6 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     //     renderList(null);
     // }
 
+    document.getElementById('functester').addEventListener('click',()=>{
+        todoList.addTask("this is a todo task", "2004-02-19");
+    });
+
     // Listen to changes in URL
     window.addEventListener('hashchange', async () => {
         console.log('on HashChange');
