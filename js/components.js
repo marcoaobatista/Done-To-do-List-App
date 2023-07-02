@@ -1,5 +1,5 @@
 
-export function taskCardElement(list, taskName, taskId, dueDate){
+export function taskCardElement(list, taskName, taskId, dueDate, completed){
     let taskCard = document.createElement("li");
     taskCard.className = "task-card";
     taskCard.id = `task${taskId}-card`;
@@ -53,6 +53,41 @@ export function taskCardElement(list, taskName, taskId, dueDate){
     checkbox.addEventListener('change', (event) => {
         list.toggleTaskStatus(taskId);
     });
+    if (completed){
+        checkbox.checked = completed;
+    }
 
     return taskCard;
+}
+
+export function listLinkElement(listName, completedTasks){
+    let li = document.createElement('li');
+
+    let a = document.createElement('a');
+    a.href = `#${listName}`;
+    a.className = 'list-link';
+    a.id = `${listName}-anchor`;
+    li.appendChild(a);
+
+    let ionIcon = document.createElement('ion-icon');
+    ionIcon.name = 'list-outline';
+    ionIcon.className = 'list-link__icon';
+    a.appendChild(ionIcon);
+    
+    let div = document.createElement('div');
+    div.className = 'list-link__content';
+    a.appendChild(div);
+
+    let spanTitle = document.createElement('span');
+    spanTitle.className = 'list-link__title';
+    spanTitle.textContent = listName;
+    div.appendChild(spanTitle);
+
+    let spanTasksCount = document.createElement('span');
+    spanTasksCount.className = 'list-link__tasks-count';
+    spanTasksCount.id = `${listName}-link-count`;
+    spanTasksCount.textContent = `${completedTasks} Tasks`;
+    div.appendChild(spanTasksCount);
+
+    return li;
 }

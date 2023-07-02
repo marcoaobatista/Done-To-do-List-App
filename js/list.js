@@ -1,4 +1,4 @@
-import * as components from './components.js';
+import {taskCardElement} from './components.js';
 
 export class List{
     constructor(idb, storeName){
@@ -8,8 +8,8 @@ export class List{
         this.title = document.querySelector('.list__header__title');
         this.incompletedUl = document.querySelector('#incompleted-ul');
         this.completedUl = document.querySelector('#completed-ul');
-        this.tasksHeading = document.querySelector('#tasks-heading');
-        this.completedHeading = document.querySelector('#completed-heading');
+        this.tasksHeadingCounter = document.querySelector('#tasks-heading-counter');
+        this.completedHeadingCounter = document.querySelector('#completed-heading-counter');
     }
 
     async render(){
@@ -42,15 +42,14 @@ export class List{
             }else{
                 incompletedCount += 1;
             }
-            this.tasksHeading.textContent = `Tasks - ${incompletedCount}`
-            this.completedHeading.textContent = `Completed - ${completedCount}`
+            this.tasksHeadingCounter.textContent = incompletedCount;
+            this.completedHeadingCounter.textContent = completedCount;
 
-            let taskCard = components.taskCardElement(this, task.name, task.id, task.due);
+            let taskCard = taskCardElement(this, task.name, task.id, task.due, task.completed);
 
             if (!task.completed){
                 this.incompletedUl.appendChild(taskCard);
             } else {
-                checkbox.checked = true
                 this.completedUl.appendChild(taskCard);
             }
         });
@@ -71,8 +70,10 @@ export class List{
         setTimeout(() => {
             if (incompletedUl.contains(taskCard)){
                 completedUl.appendChild(taskCard);
+                this.updateCounters();
             }else{
                 incompletedUl.prepend(taskCard)
+                this.updateCounters();
             }
             taskCard.classList.remove('fade-out');
         }, 600);
@@ -91,7 +92,7 @@ export class List{
 
     async addTask(taskName, dueDate){
         await this.idb.addTask(taskName, dueDate).then((taskId)=>{
-            let taskCard = components.taskCardElement(this, taskName, taskId, new Date(dueDate));
+            let taskCard = taskCardElement(this, taskName, taskId, new Date(dueDate));
             this.incompletedUl.prepend(taskCard);
         });
     }
@@ -100,6 +101,20 @@ export class List{
         await this.idb.deleteTask(taskId).then(()=>{
             let taskCard = document.getElementById(`task${taskId}-card`);
             taskCard.remove();
+            this.updateCounters();
         });
+    }
+
+    updateCounters(){
+        let listName = window.location.hash.substring(1);
+
+        let tasksCurrentCount = this.incompletedUl.childElementCount;
+        let completedCurrentCount = this.completedUl.childElementCount;
+
+        this.tasksHeadingCounter.textContent = tasksCurrentCount;
+        this.completedHeadingCounter.textContent = completedCurrentCount;
+
+        let linkTasksCount = document.getElementById(`${listName}-link-count`);
+        linkTasksCount.textContent = `${tasksCurrentCount} Tasks`;
     }
 }

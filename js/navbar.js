@@ -1,3 +1,5 @@
+import {listLinkElement} from './components.js';
+
 export class NavBar{
     constructor(idb){
         this.idb = idb;
@@ -22,23 +24,15 @@ export class NavBar{
     }
 
     async render(){
+        let listName = window.location.hash.substring(1);
          // Get the todo lists from the database
         const lists = await this.idb.getAll();
 
         lists.forEach(list => {
             let completedTasks = list.tasks.filter(task => !task.completed).length;
-            let listLinkHtml = `
-            <li>
-                <a href="#${list.name}" class="list-link" id="${list.name}-anchor">
-                <ion-icon name="list-outline" class="list-link__icon"></ion-icon>
-                <div class="list-link__content">
-                    <span class="list-link__title">${list.name}</span>
-                    <span class="list-link__tasks-count">${completedTasks} Tasks</span>
-                </div>
-                </a>
-            </li>
-            `
-            this.ul.innerHTML += listLinkHtml;
+            let listLink = listLinkElement(list.name, completedTasks);
+            
+            this.ul.appendChild(listLink);
         });
     }
 }
