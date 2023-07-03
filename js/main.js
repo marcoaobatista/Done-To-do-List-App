@@ -1,13 +1,15 @@
 import { IndexedDB } from './indexedDB.js';
 import { NavBar } from './navbar.js';
 import { List } from './list.js';
+import { ActionPages } from './actionPages.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const storeName = "toDoLists";
     const dbName = "DoneTodoList";
+    const dbVersion = 1;
 
     // Initialize the IndexedDB
-    const idb = new IndexedDB(dbName, 1, storeName);
+    const idb = new IndexedDB(dbName, dbVersion, storeName);
     await idb.initDB();
     
     // Create and render the navbar
@@ -16,6 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const todoList = new List(idb, storeName);
     await todoList.render();
+
+    const actionPages = new ActionPages(idb);
+    actionPages.render();
 
     // // Render the first list by default or a blank list if no lists exist yet
     // if (lists.length > 0) {
