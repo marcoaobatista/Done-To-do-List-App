@@ -19,8 +19,11 @@ export class List{
             console.log('List Name Not in Database');
         });
         if (!list){
-            listName = await this.idb.getFirstListName().catch(()=>{
+            listName = await this.idb.getFirstListName().catch(async ()=>{
                 // display no list in db page
+                this.idb.addList('Todos').then(()=>{
+                    location.reload();
+                });
             });
                 
             list = await this.idb.getList(listName);

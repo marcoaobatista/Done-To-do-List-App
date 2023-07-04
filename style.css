@@ -171,7 +171,7 @@ ion-icon{
     width: 0;
     background-color: white;
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     top: 0;
     left: 0;
     overflow-x: hidden;
@@ -271,6 +271,7 @@ ion-icon{
   position:fixed;
   top: 35px; /* 35px */
   left: 35px;
+  z-index: 2;
 
 }
 .nav-open:hover{
@@ -286,7 +287,7 @@ ion-icon{
   align-items: center;
   justify-content: space-between;
 
-  z-index: 2;
+  z-index: 1;
   backdrop-filter: blur(4px);
   
 }
@@ -325,6 +326,7 @@ ion-icon{
   width: 50%;
   border-radius: 25px;
   margin: auto;
+  min-width: 350px;
 }
 
 .action-card--compact{

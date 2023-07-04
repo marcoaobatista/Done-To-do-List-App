@@ -17,6 +17,10 @@ export class ActionPages{
 
         this.editListBtn = document.querySelector('#edit-list-btn');
         this.editListPage = document.getElementById('edit-list-page');
+        this.editListForm = document.getElementById('edit-list-form');
+        this.editListInput = document.getElementById('edit-list-text-input');
+        this.editListDeleteBtn = document.querySelector('.action-card__btn--delete');
+        this.editListSubmitBtn = document.getElementById('edit-list-submit-btn');
     }
 
     render(){
@@ -47,6 +51,24 @@ export class ActionPages{
 
         this.editListBtn.addEventListener('click', () => this.openEditList());
         this.editListPage.addEventListener('click', () => this.closeEditList());
+        this.editListForm.addEventListener('submit', async (e)=>{
+            e.preventDefault();
+            let newName = this.editListInput.value;
+            await this.idb.editListName(newName).then(()=>{
+                window.location.href = `#${newName}`;
+                this.list.render();
+                this.navbar.render();
+                this.closeEditList();
+            });
+        });
+        this.editListDeleteBtn.addEventListener('click', async ()=>{
+            await this.idb.deleteList().then(()=>{
+                this.list.render();
+                this.navbar.render();
+                this.closeEditList();
+            });
+        });
+        
     }
 
     openAddTask(){

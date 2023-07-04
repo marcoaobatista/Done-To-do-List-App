@@ -103,12 +103,12 @@
           <form id="edit-list-form">
           <div class="action-card__header">
             <h2 class="action-card__title">Edit List</h2>
-            <button class="action-card__btn action-card__btn--delete">Delete List</button>
+            <button class="action-card__btn action-card__btn--delete" type="button" value="delete">Delete List</button>
           </div>
           <label class="action-card__text-input-label" for="edit-list-text-input">List Name:</label>
           <div class="action-card__content">
             <input type="text" class="action-card__text-input" id="edit-list-text-input" name="list-name">
-            <button class="action-card__btn" type="submit">Save</button>
+            <button class="action-card__btn" id="edit-list-submit-btn" type="submit" value="submit">Save</button>
           </div>
         </form>
         </div>
@@ -145,7 +145,7 @@
     <button class="new-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
 
 
-    <button id="functester">test function</button>
+    <!-- <button id="functester">test function</button>
     <style>
       #functester{
         position: absolute;
@@ -154,6 +154,6 @@
         background: lightblue;
         margin: 20px;
       }
-    </style>
+    </style> -->
   </body>
 </html>

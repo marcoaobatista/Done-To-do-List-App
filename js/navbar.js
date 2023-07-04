@@ -15,8 +15,12 @@ export class NavBar{
     }
 
     open(){
-        this.navBar.style.width = '250px';
-        this.list.style.marginLeft = '250px';
+        if (window.screen.width <= 512){
+            this.navBar.style.width = '100%';
+        }else{
+            this.navBar.style.width = '250px';
+            this.list.style.marginLeft = '250px';
+        }
     }
     close(){
         this.navBar.style.width = '0';
@@ -27,6 +31,8 @@ export class NavBar{
         let listName = window.location.hash.substring(1);
          // Get the todo lists from the database
         const lists = await this.idb.getAll();
+
+        this.ul.innerHTML = '';
 
         lists.forEach(list => {
             let completedTasks = list.tasks.filter(task => !task.completed).length;

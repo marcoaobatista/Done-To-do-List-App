@@ -14,8 +14,8 @@ export class IndexedDB {
                 this.db = event.target.result;
                 // create an objectStore called `storeName` if it does not exist
                 if (!this.db.objectStoreNames.contains(this.storeName)) {
-                    const store = this.db.createObjectStore(this.storeName, { keyPath: 'id', autoIncrement: true });
-                    store.createIndex('name', 'name', { unique: true });
+                    const store = this.db.createObjectStore(this.storeName, { keyPath: 'name'});
+                    // store.createIndex('name', 'name', { unique: true });
                 }
             };
 
@@ -61,8 +61,8 @@ export class IndexedDB {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
     
-            const index = store.index('name');
-            const request = index.get(listName);
+            // const index = store.index('name');
+            const request = store.get(listName);
     
             request.onsuccess = (event) => {
                 let list = event.target.result;
@@ -108,8 +108,8 @@ export class IndexedDB {
             const store = transaction.objectStore(this.storeName);
     
             // First, retrieve the list from the object store
-            const index = store.index('name');
-            const request = index.get(listName);
+            // const index = store.index('name');
+            const request = store.get(listName);
 
             request.onsuccess = function(e) {
                 const list = e.target.result;
@@ -161,8 +161,8 @@ export class IndexedDB {
             const store = transaction.objectStore(this.storeName);
     
             // First, retrieve the list from the object store
-            const index = store.index('name');
-            const getRequest = index.get(listName);
+            // const index = store.index('name');
+            const getRequest = store.get(listName);
     
             getRequest.onsuccess = function(e) {
                 const list = e.target.result;
@@ -211,8 +211,8 @@ export class IndexedDB {
             const store = transaction.objectStore(this.storeName);
 
             // First, retrieve the list from the object store
-            const index = store.index('name');
-            const getRequest = index.get(listName);
+            // const index = store.index('name');
+            const getRequest = store.get(listName);
 
             getRequest.onsuccess = function(e) {
                 const list = e.target.result;
@@ -272,14 +272,82 @@ export class IndexedDB {
         });
     }
 
-    async editList(){
+    async editListName(newName){
         /** */
+        return new Promise((resolve, reject) => {
+            let listName = window.location.hash.substring(1);
 
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+    
+            // Retrieve the list from the object store
+            const getRequest = store.get(listName);
+    
+            getRequest.onsuccess = function(e) {
+                const list = e.target.result;
+    
+                if (list) {
+                    // If the list was found, create a new list with the new name and the same tasks
+                    const newList = { name: newName, tasks: list.tasks };
+    
+                    // Then, add the new list to the object store
+                    const addRequest = store.add(newList);
+    
+                    addRequest.onsuccess = function(e) {
+                        console.log('New list added', e);
+    
+                        // After the new list has been added, delete the old list
+                        const deleteRequest = store.delete(listName);
+    
+                        deleteRequest.onsuccess = function(e) {
+                            console.log('Old list deleted', e);
+                            resolve(); // Operation completed successfully, resolve the promise
+                        };
+    
+                        deleteRequest.onerror = function(e) {
+                            console.log('Error', e.target.error.name);
+                            reject(e.target.error); // An error occurred, reject the promise
+                        };
+                    };
+    
+                    addRequest.onerror = function(e) {
+                        console.log('Error', e.target.error.name);
+                        reject(e.target.error); // An error occurred, reject the promise
+                    };
+                } else {
+                    console.log('List not found');
+                    reject(new Error('List not found')); // List not found, reject the promise
+                }
+            };
+    
+            getRequest.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
+            };
+        });
     }
 
     async deleteList(){
         /** */
+        return new Promise((resolve, reject) => {
+            let listName = window.location.hash.substring(1);
 
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+    
+            // Delete the list from the object store
+            const deleteRequest = store.delete(listName);
+    
+            deleteRequest.onsuccess = function(e) {
+                console.log('List deleted', e);
+                resolve(); // Operation completed successfully, resolve the promise
+            };
+    
+            deleteRequest.onerror = function(e) {
+                console.log('Error', e.target.error.name);
+                reject(e.target.error); // An error occurred, reject the promise
+            };
+        });
     }
   }
   

@@ -356,5 +356,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 // TODO LIST (lol)-----
-// make complete animated, animate with css and update database, without refreshing
-// separate refresh list and refresh nav
+// change hamburger
+// listname validadity check

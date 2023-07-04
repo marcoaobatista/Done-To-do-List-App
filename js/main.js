@@ -22,16 +22,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const actionPages = new ActionPages(idb, todoList, navBar);
     actionPages.render();
 
-    // // Render the first list by default or a blank list if no lists exist yet
-    // if (lists.length > 0) {
-    //     renderList(lists[0].id);
-    // } else {
-    //     renderList(null);
-    // }
-
-    document.getElementById('functester').addEventListener('click',()=>{
-        todoList.addTask("this is a todo task", "2004-02-19");
-    });
+    // document.getElementById('functester').addEventListener('click',()=>{
+    //     todoList.addTask("this is a todo task", "2004-02-19");
+    // });
 
     // Listen to changes in URL
     window.addEventListener('hashchange', async () => {
@@ -39,7 +32,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         todoList.render();
     });
 });
-
-
-// TODO
-// display no list in db page (this comment is in list.js)
