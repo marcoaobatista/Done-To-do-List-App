@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const todoList = new List(idb, storeName);
     await todoList.render();
 
-    const actionPages = new ActionPages(idb);
+    const actionPages = new ActionPages(idb, todoList, navBar);
     actionPages.render();
 
     // // Render the first list by default or a blank list if no lists exist yet

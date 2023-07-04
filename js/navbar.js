@@ -35,4 +35,11 @@ export class NavBar{
             this.ul.appendChild(listLink);
         });
     }
+
+    async createList(listName){
+        await this.idb.addList(listName).then(()=>{
+            let listLink = listLinkElement(listName, 0);
+            this.ul.appendChild(listLink);
+        });
+    }
 }

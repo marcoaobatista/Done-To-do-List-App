@@ -35,24 +35,29 @@ export class List{
         this.incompletedUl.innerHTML = '';
         this.completedUl.innerHTML = '';
 
-        list.tasks.reverse().forEach(task => {
-
-            if (task.completed){
-                completedCount += 1;
-            }else{
-                incompletedCount += 1;
-            }
-            this.tasksHeadingCounter.textContent = incompletedCount;
-            this.completedHeadingCounter.textContent = completedCount;
-
-            let taskCard = taskCardElement(this, task.name, task.id, task.due, task.completed);
-
-            if (!task.completed){
-                this.incompletedUl.appendChild(taskCard);
-            } else {
-                this.completedUl.appendChild(taskCard);
-            }
-        });
+        if (list.tasks.length){
+            list.tasks.reverse().forEach(task => {
+    
+                if (task.completed){
+                    completedCount += 1;
+                }else{
+                    incompletedCount += 1;
+                }
+                this.tasksHeadingCounter.textContent = incompletedCount;
+                this.completedHeadingCounter.textContent = completedCount;
+    
+                let taskCard = taskCardElement(this, task.name, task.id, task.due, task.completed);
+    
+                if (!task.completed){
+                    this.incompletedUl.appendChild(taskCard);
+                } else {
+                    this.completedUl.appendChild(taskCard);
+                }
+            });
+        }else{
+            this.tasksHeadingCounter.textContent = '0';
+            this.completedHeadingCounter.textContent = '0';
+        }
     }
 
     async toggleTaskStatus(taskId){
@@ -80,8 +85,8 @@ export class List{
 
         setTimeout(() => {
             taskCard.classList.add('fade-in');
-            
         }, 600);
+        
         taskCard.classList.remove('fade-in');
 
         // update taskCounters
@@ -94,6 +99,7 @@ export class List{
         await this.idb.addTask(taskName, dueDate).then((taskId)=>{
             let taskCard = taskCardElement(this, taskName, taskId, new Date(dueDate));
             this.incompletedUl.prepend(taskCard);
+            this.updateCounters();
         });
     }
 
