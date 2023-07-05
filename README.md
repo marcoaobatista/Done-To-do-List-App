@@ -22,5 +22,6 @@ Done is a dynamic Todo Lists application that allows users to effectively manage
 
 1. Upon launching the application, users can add new lists by clicking the 'Add list' button.
 2. To add a task, click the '+' button and fill in the task details, including the task name and the due date.
-3. To mark a task as complete, click on the task. It will then move to the 'Completed' section.
-4. To delete a task, click on the ellipsis icon (...) on the task card, and select 'Delete'.
+3. To mark a task as complete, click on the task checkbox. It will then move to the 'Completed' section.
+4. To delete a task, click on the x icon on the task card.
+5. To delete a list, click on the ellipsis icon (...) next to the list name, and select 'Delete List'.
