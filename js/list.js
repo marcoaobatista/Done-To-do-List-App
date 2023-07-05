@@ -5,6 +5,7 @@ export class List{
         this.idb = idb;
         this.storeName = storeName;
 
+        // List elements
         this.title = document.querySelector('.list__header__title');
         this.incompletedUl = document.querySelector('#incompleted-ul');
         this.completedUl = document.querySelector('#completed-ul');
@@ -14,13 +15,13 @@ export class List{
 
     async render(){
         let listName = window.location.hash.substring(1);
-        // Get the todo list from the database and make sure that 
+        // Get the todo list from the database. If it does not exist, create one
         let list = await this.idb.getList(listName).catch(()=>{
             console.log('List Name Not in Database');
         });
         if (!list){
             listName = await this.idb.getFirstListName().catch(async ()=>{
-                // display no list in db page
+                // Create default todo list
                 this.idb.addList('Todos').then(()=>{
                     location.reload();
                 });
@@ -30,14 +31,17 @@ export class List{
             window.location.href = `#${listName}`;
         }
 
+        // Update the title of the list
         this.title.textContent = list.name;
 
         let completedCount = 0;
         let incompletedCount = 0;
 
+        // Clear list elements
         this.incompletedUl.innerHTML = '';
         this.completedUl.innerHTML = '';
 
+        // Populate the lists and counters
         if (list.tasks.length){
             list.tasks.reverse().forEach(task => {
     
@@ -58,17 +62,18 @@ export class List{
                 }
             });
         }else{
+            // If no tasks, set counters to 0
             this.tasksHeadingCounter.textContent = '0';
             this.completedHeadingCounter.textContent = '0';
         }
     }
 
+    // Method to change task status
     async toggleTaskStatus(taskId){
         let listName = window.location.hash.substring(1);
-
         await this.idb.toggleTaskStatus(listName, taskId);
 
-        // if checked, move to completed. Otherwise, move to tasks
+        // Move the task card to the corresponding list
         let incompletedUl = document.getElementById('incompleted-ul');
         let completedUl = document.getElementById('completed-ul');
         let taskCard = document.getElementById(`task${taskId}-card`);
@@ -91,13 +96,9 @@ export class List{
         }, 600);
         
         taskCard.classList.remove('fade-in');
-
-        // update taskCounters
-        // this.tasksHeading.textContent = `Tasks - ${}`;
-        // this.completedHeading.textContent = `Completed - ${}`;
-        
     }
 
+    // Method to add a task
     async addTask(taskName, dueDate){
         await this.idb.addTask(taskName, dueDate).then((taskId)=>{
             let taskCard = taskCardElement(this, taskName, taskId, new Date(dueDate));
@@ -106,6 +107,7 @@ export class List{
         });
     }
 
+    // Method to delete a task
     async deleteTask(taskId){
         await this.idb.deleteTask(taskId).then(()=>{
             let taskCard = document.getElementById(`task${taskId}-card`);
@@ -114,6 +116,7 @@ export class List{
         });
     }
 
+    // Method to update task counters
     updateCounters(){
         let listName = window.location.hash.substring(1);
 

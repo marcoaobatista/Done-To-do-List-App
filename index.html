@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Done - Todo Lists</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
     <script type="module" src="./js/main.js"></script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -15,49 +16,30 @@
       <button class="nav-open"><ion-icon name="menu-outline"></ion-icon></button>
       <nav class="nav">
         <div class="nav__header">
-          <img src="DoneLogo.svg" alt="Done Logo" id="logoid" />
+          <img src="./assets/DoneLogo.svg" alt="Done Logo" id="logoid" />
           <button class="nav__close-btn"><ion-icon name="close-outline"></ion-icon></button>
         </div>
 
-        <ul id="lists-link-ul">
-          <!-- <li>
-            <a href="#General" class="list-link">
-              <ion-icon name="list-outline" class="list-link__icon"></ion-icon>
-              <div class="list-link__content">
-                <span class="list-link__title">List Name</span>
-                <span class="list-link__tasks-count">0 Tasks</span>
-              </div>
-            </a>
-          </li> -->
-        </ul>
+        <ul id="lists-link-ul"></ul>
 
         <button class="nav__new-list-btn" id="new-list-btn">Add list</button>
       </nav>
     </header>
 
     <main>
+      <!-- LIST -->
       <div class="list">
         <div class="list__header">
-          <h1 class="list__header__title"></h1>
+          <h1 class="list__header__title">Done Todo Lists</h1>
           <button class="list__header__button" id="edit-list-btn">
             <ion-icon class="list__header__button_icon" name="ellipsis-horizontal"></ion-icon>
           </button>
         </div>
         <hr />
-       
         <section class="list__tasks">
           <h2 class="list__tasks__title" id="tasks-heading">Tasks - <span id="tasks-heading-counter">0</span></h2>
-          <ul id="incompleted-ul">
-            <!-- <li class="task-card">
-              <input type="checkbox" id="task1" class="task-card__checkbox"/>
-              <div class="task-card__content">
-                <span class="task-card__title">Todo list item</span>
-                <span class="task-card__date">mon., jan 01 2023</span>
-              </div>
-            </li> -->
-          </ul>
+          <ul id="incompleted-ul"></ul>
         </section>
-
         <section class="list__completed">
           <h2 class="list__tasks__title" id="completed-heading">Completed - <span id="completed-heading-counter">0</span></h2>
           <ul id="completed-ul"></ul>
@@ -65,7 +47,7 @@
       </div>
 
       <!-- ADD TASK CARD -->
-      <div class="overlay-background hide" id="new-task-page">
+      <div class="overlay-background hidden" id="new-task-page">
         <div class="action-card">
           <form id="add-task-form">
           <div class="action-card__header">
@@ -80,25 +62,9 @@
         </form>
         </div>
       </div>
-        <!-- EDIT TASK CARD
-      <div class="overlay-background hide" id="edit-task-page">
-        <div class="action-card">
-          <form action="">
-          <div class="action-card__header">
-            <h2 class="action-card__title">Edit Task</h2>
-            <input type="date" class="action-card__date-input">
-          </div>
-          <label class="action-card__text-input-label" for="edit-task-text-input">Task Name:</label>
-          <div class="action-card__content">
-            <input type="text" class="action-card__text-input" id="edit-task-text-input" name="task-name" required>
-            <button class="action-card__btn" type="submit">Create</button>
-          </div>
-        </form>
-        </div>
-      </div> -->
         
         <!-- EDIT LIST -->
-      <div class="overlay-background hide" id="edit-list-page">
+      <div class="overlay-background hidden" id="edit-list-page">
         <div class="action-card action-card--compact">
           <form id="edit-list-form">
           <div class="action-card__header">
@@ -110,50 +76,29 @@
             <input type="text" class="action-card__text-input" id="edit-list-text-input" name="list-name">
             <button class="action-card__btn" id="edit-list-submit-btn" type="submit" value="submit">Save</button>
           </div>
-          <p class="invalid-input-text" id="edit-list-error">&#10005 Enter only alphanumeric characters</p>
+          <p class="invalid-input-text" id="edit-list-error">&# 10005 Enter only alphanumeric characters</p>
         </form>
         </div>
       </div>
 
         <!-- CREATE LIST -->
-      <div class="overlay-background hide" id="new-list-page">
+      <div class="overlay-background hidden" id="new-list-page">
         <div class="action-card action-card--compact">
           <form id="add-list-form">
           <div class="action-card__header">
             <h2 class="action-card__title">Create List</h2>
           </div>
-            <!-- <div class="action-card__select-icon">
-              <label class="action-card__text-input-label" for="">Icon:</label>
-              <div class="action-card__icon--padded">
-                <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
-              </div>
-            </div> -->
             <label class="action-card__text-input-label" for="create-list-text-input">List Name:</label>
             <div class="action-card__content">
               <input type="text" class="action-card__text-input" id="create-list-text-input" name="list-name" required>
               <button class="action-card__btn" type="submit">Create</button>
             </div>
-          <p class="invalid-input-text" id="create-list-error">&#10005 Enter only alphanumeric characters</p>
+          <p class="invalid-input-text" id="create-list-error">&#10005Enter only alphanumeric characters</p>
         </form>
         </div>
       </div>
-
     </div>
-
     </main>
-    
-    <button class="new-task-btn" onclick=""><ion-icon name="add-outline"></ion-icon></button>
-
-
-    <!-- <button id="functester">test function</button>
-    <style>
-      #functester{
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: lightblue;
-        margin: 20px;
-      }
-    </style> -->
+    <button class="new-task-btn"><ion-icon name="add-outline"></ion-icon></button>
   </body>
 </html>

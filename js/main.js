@@ -16,23 +16,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navBar = new NavBar(idb);
     navBar.render();
 
+    // Create and render the todo list
     const todoList = new List(idb, storeName);
     await todoList.render();
 
+    // Create and render the action pages
     const actionPages = new ActionPages(idb, todoList, navBar);
     actionPages.render();
 
-    // document.getElementById('functester').addEventListener('click',()=>{
-    //     todoList.addTask("this is a todo task", "2004-02-19");
-    // });
-
     // Listen to changes in URL
     window.addEventListener('hashchange', async () => {
-        console.log('on HashChange');
         todoList.render();
     });
 });
-
-
-// TODO LIST (lol)-----
-// listname validadity check

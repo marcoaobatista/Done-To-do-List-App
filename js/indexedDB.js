@@ -5,8 +5,8 @@ export class IndexedDB {
       this.storeName = storeName;
     }
   
+    // Open database and creates objectStore if it does not exist
     async initDB(){
-        /** */
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this.dbName, this.version);
 
@@ -15,7 +15,6 @@ export class IndexedDB {
                 // create an objectStore called `storeName` if it does not exist
                 if (!this.db.objectStoreNames.contains(this.storeName)) {
                     const store = this.db.createObjectStore(this.storeName, { keyPath: 'name'});
-                    // store.createIndex('name', 'name', { unique: true });
                 }
             };
 
@@ -32,8 +31,8 @@ export class IndexedDB {
         });
     }
     
+    // Gets and retuns an array of list objects from the database
     async getAll(){
-        /** */
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
@@ -55,13 +54,12 @@ export class IndexedDB {
         });
     }
 
+    // Get and returns list object with listName from database
     async getList(listName){
-        /** */
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
-    
-            // const index = store.index('name');
+            
             const request = store.get(listName);
     
             request.onsuccess = (event) => {
@@ -78,8 +76,8 @@ export class IndexedDB {
         });
     }
 
+    // Gets and returns the first list's name in database
     async getFirstListName(){
-        /** */
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
@@ -101,14 +99,13 @@ export class IndexedDB {
         });
     }
 
+    // Changes given task's completion status in databse
     async toggleTaskStatus(listName, taskId){
-        /** */
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
     
             // First, retrieve the list from the object store
-            // const index = store.index('name');
             const request = store.get(listName);
 
             request.onsuccess = function(e) {
@@ -116,7 +113,6 @@ export class IndexedDB {
                 if (list) {
                     // Find the task in the tasks array
                     const task = list.tasks.find(task => task.id === Number(taskId));
-                    // console.log(taskId);
                     if (task) {
                         // Toggle task's completed status
                         task.completed = !task.completed;
@@ -150,8 +146,8 @@ export class IndexedDB {
         });
     }
 
+    // Adds new task to current list in database
     async addTask(taskName, dueDate){
-        /** */
         return new Promise((resolve, reject) => {
             let task = {id: 0, name: taskName, due: new Date(dueDate), completed: false }
 
@@ -161,7 +157,6 @@ export class IndexedDB {
             const store = transaction.objectStore(this.storeName);
     
             // First, retrieve the list from the object store
-            // const index = store.index('name');
             const getRequest = store.get(listName);
     
             getRequest.onsuccess = function(e) {
@@ -202,8 +197,8 @@ export class IndexedDB {
         });
     }
 
+    // Deletes given task from current list in database
     async deleteTask(taskId){
-        /** */
         return new Promise((resolve, reject) => {
             let listName = window.location.hash.substring(1);
 
@@ -211,7 +206,6 @@ export class IndexedDB {
             const store = transaction.objectStore(this.storeName);
 
             // First, retrieve the list from the object store
-            // const index = store.index('name');
             const getRequest = store.get(listName);
 
             getRequest.onsuccess = function(e) {
@@ -254,8 +248,8 @@ export class IndexedDB {
         });
     }
 
+    // Adds new list to database
     async addList(listName){
-        /** */
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([this.storeName], 'readwrite');
             const store = transaction.objectStore(this.storeName);
@@ -272,8 +266,8 @@ export class IndexedDB {
         });
     }
 
+    // Changes current list's name to newName in database
     async editListName(newName){
-        /** */
         return new Promise((resolve, reject) => {
             let listName = window.location.hash.substring(1);
 
@@ -327,8 +321,8 @@ export class IndexedDB {
         });
     }
 
+    // Deletes current list from database
     async deleteList(){
-        /** */
         return new Promise((resolve, reject) => {
             let listName = window.location.hash.substring(1);
 

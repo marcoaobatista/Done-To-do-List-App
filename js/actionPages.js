@@ -4,18 +4,21 @@ export class ActionPages{
         this.list = list;
         this.navbar = navbar;
 
+        // New task page elements
         this.newTaskBtn = document.querySelector('.new-task-btn');
         this.newTaskPage = document.getElementById('new-task-page');
         this.newTaskForm = document.getElementById('add-task-form');
         this.newTaskInput = document.getElementById('add-task-text-input');
         this.newDateInput = document.getElementById('add-task-date-input');
 
+        // New list page elements
         this.newListBtn = document.querySelector('#new-list-btn');
         this.newListPage = document.getElementById('new-list-page');
         this.newListForm = document.getElementById('add-list-form');
         this.newListInput = document.getElementById('create-list-text-input');
         this.newListError = document.getElementById('create-list-error');
 
+        // Edit list page elements
         this.editListBtn = document.querySelector('#edit-list-btn');
         this.editListPage = document.getElementById('edit-list-page');
         this.editListForm = document.getElementById('edit-list-form');
@@ -25,12 +28,15 @@ export class ActionPages{
         this.editListError = document.getElementById('edit-list-error');
     }
 
+    // Set up action pages
     render(){
+        // Stop event propagation on action cards
         const actionCards = document.querySelectorAll('.action-card');
         actionCards.forEach(actionCard => actionCard.addEventListener('click', event => {
             event.stopPropagation();
         }));
 
+        // Add event listeners to new task page elements
         this.newTaskBtn.addEventListener('click', () => this.openAddTask());
         this.newTaskPage.addEventListener('click', () => this.closeAddTask());
         this.newTaskForm.addEventListener('submit', (e) => {
@@ -41,6 +47,7 @@ export class ActionPages{
             this.closeAddTask();
         });
 
+        // Add event listeners to new list page elements
         this.newListBtn.addEventListener('click', () => this.openAddList());
         this.newListPage.addEventListener('click', () => this.closeAddList());
         this.newListForm.addEventListener('submit', (e) => {
@@ -59,7 +66,7 @@ export class ActionPages{
             }
         });
 
-
+        // Add event listeners to edit list page elements
         this.editListBtn.addEventListener('click', () => this.openEditList());
         this.editListPage.addEventListener('click', () => this.closeEditList());
         this.editListForm.addEventListener('submit', async (e)=>{
@@ -108,6 +115,7 @@ export class ActionPages{
         this.newListInput.style.border = 'none';
         this.newListError.style.display = 'none';
         this.newListPage.style.display = 'none';
+        // Clear input fields
         this.newListPage.querySelectorAll('input').forEach((input)=>{
             input.value = '';
         });
@@ -122,6 +130,7 @@ export class ActionPages{
         this.editListInput.style.border = 'none';
         this.editListError.style.display = 'none';
         this.editListPage.style.display = 'none';
+        // Clear input fields
         this.editListPage.querySelectorAll('input').forEach((input)=>{
             input.value = '';
         });

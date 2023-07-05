@@ -1,4 +1,5 @@
 
+// Creates and returns DOM taskCard element
 export function taskCardElement(list, taskName, taskId, dueDate, completed){
     let taskCard = document.createElement("li");
     taskCard.className = "task-card";
@@ -29,7 +30,6 @@ export function taskCardElement(list, taskName, taskId, dueDate, completed){
                 month: 'short', 
                 day: 'numeric' 
             }).replace(/,/g, '');
-        // let date = dueDate.toDateString();
 
         let dueSpan = document.createElement("span");
         dueSpan.className = "task-card__date";
@@ -67,6 +67,7 @@ export function taskCardElement(list, taskName, taskId, dueDate, completed){
     return taskCard;
 }
 
+// Creates and returns DOM listLink element
 export function listLinkElement(listName, completedTasks){
     let li = document.createElement('li');
 
