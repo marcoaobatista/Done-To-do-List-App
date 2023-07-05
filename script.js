@@ -352,9 +352,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
 });
-
-
-
-// TODO LIST (lol)-----
-// change hamburger
-// listname validadity check

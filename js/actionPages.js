@@ -14,6 +14,7 @@ export class ActionPages{
         this.newListPage = document.getElementById('new-list-page');
         this.newListForm = document.getElementById('add-list-form');
         this.newListInput = document.getElementById('create-list-text-input');
+        this.newListError = document.getElementById('create-list-error');
 
         this.editListBtn = document.querySelector('#edit-list-btn');
         this.editListPage = document.getElementById('edit-list-page');
@@ -21,6 +22,7 @@ export class ActionPages{
         this.editListInput = document.getElementById('edit-list-text-input');
         this.editListDeleteBtn = document.querySelector('.action-card__btn--delete');
         this.editListSubmitBtn = document.getElementById('edit-list-submit-btn');
+        this.editListError = document.getElementById('edit-list-error');
     }
 
     render(){
@@ -43,9 +45,18 @@ export class ActionPages{
         this.newListPage.addEventListener('click', () => this.closeAddList());
         this.newListForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            let listName = this.newListInput.value;
-            this.navbar.createList(listName);
-            this.closeAddList();
+            const listName = this.newListInput.value;
+            const hashPattern = /^[a-zA-Z0-9]+$/; // Regular expression pattern to match alphanumeric characters
+            
+            if (hashPattern.test(listName)) {
+                // Valid hash value, proceed with further processing or updating the URL hash
+                this.navbar.createList(listName);
+                this.closeAddList();
+            } else {
+                // Invalid hash value, show an error message or handle appropriately
+                this.newListInput.style.border = 'red solid 1px';
+                this.newListError.style.display = 'block';
+            }
         });
 
 
@@ -54,12 +65,21 @@ export class ActionPages{
         this.editListForm.addEventListener('submit', async (e)=>{
             e.preventDefault();
             let newName = this.editListInput.value;
-            await this.idb.editListName(newName).then(()=>{
-                window.location.href = `#${newName}`;
-                this.list.render();
-                this.navbar.render();
-                this.closeEditList();
-            });
+            const hashPattern = /^[a-zA-Z0-9]+$/; // Regular expression pattern to match alphanumeric characters
+            
+            if (hashPattern.test(newName)) {
+                // Valid hash value, proceed with further processing or updating the URL hash
+                await this.idb.editListName(newName).then(()=>{
+                    window.location.href = `#${newName}`;
+                    this.list.render();
+                    this.navbar.render();
+                    this.closeEditList();
+                });
+            } else {
+                // Invalid hash value, show an error message or handle appropriately
+                this.editListInput.style.border = 'red solid 1px';
+                this.editListError.style.display = 'block';
+            }
         });
         this.editListDeleteBtn.addEventListener('click', async ()=>{
             await this.idb.deleteList().then(()=>{
@@ -85,6 +105,8 @@ export class ActionPages{
         this.newListPage.style.display = 'flex';
     }
     closeAddList(){
+        this.newListInput.style.border = 'none';
+        this.newListError.style.display = 'none';
         this.newListPage.style.display = 'none';
         this.newListPage.querySelectorAll('input').forEach((input)=>{
             input.value = '';
@@ -97,6 +119,8 @@ export class ActionPages{
         this.editListPage.querySelector('input').value = listName;
     }
     closeEditList(){
+        this.editListInput.style.border = 'none';
+        this.editListError.style.display = 'none';
         this.editListPage.style.display = 'none';
         this.editListPage.querySelectorAll('input').forEach((input)=>{
             input.value = '';

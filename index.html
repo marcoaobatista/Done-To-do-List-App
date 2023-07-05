@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Done - My tasks</title>
+    <title>Done - Todo Lists</title>
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="./js/main.js"></script>
 
@@ -110,6 +110,7 @@
             <input type="text" class="action-card__text-input" id="edit-list-text-input" name="list-name">
             <button class="action-card__btn" id="edit-list-submit-btn" type="submit" value="submit">Save</button>
           </div>
+          <p class="invalid-input-text" id="edit-list-error">&#10005 Enter only alphanumeric characters</p>
         </form>
         </div>
       </div>
@@ -121,19 +122,18 @@
           <div class="action-card__header">
             <h2 class="action-card__title">Create List</h2>
           </div>
-          <div class="action-card__content">
             <!-- <div class="action-card__select-icon">
               <label class="action-card__text-input-label" for="">Icon:</label>
               <div class="action-card__icon--padded">
                 <ion-icon name="calendar-outline" class="action-card__icon"></ion-icon>
               </div>
             </div> -->
-            <div class="">
-              <label class="action-card__text-input-label" for="create-list-text-input">List Name:</label>
+            <label class="action-card__text-input-label" for="create-list-text-input">List Name:</label>
+            <div class="action-card__content">
               <input type="text" class="action-card__text-input" id="create-list-text-input" name="list-name" required>
+              <button class="action-card__btn" type="submit">Create</button>
             </div>
-            <button class="action-card__btn" type="submit">Create</button>
-          </div>
+          <p class="invalid-input-text" id="create-list-error">&#10005 Enter only alphanumeric characters</p>
         </form>
         </div>
       </div>
