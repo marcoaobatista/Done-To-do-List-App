@@ -197,7 +197,8 @@ ion-icon{
   border: none;
   background-color: transparent;
   appearance: none;
-  font-size: 34px;
+  font-size: 26px;
+  line-height: 0;
   color: #a6a6a6;
 
 }
@@ -261,17 +262,18 @@ ion-icon{
 }
 
 
-
-
 .nav-open{
   border: none;
   background-color: transparent;
   font-size: 30px;
   color: #a6a6a6;
   position:fixed;
-  top: 35px; /* 35px */
-  left: 35px;
+  margin: 0 auto;
+  top: 24px;
+  left: 18px;
+  line-height: 0px;
   z-index: 2;
+  border-radius: 0px 30px 30px 0px;
 
 }
 .nav-open:hover{
@@ -279,6 +281,32 @@ ion-icon{
   opacity: 0.8;
 }
 
+/* .nav-open{
+  position: fixed;
+  bottom: 45px; 
+  right: 45px;
+  display: inline-block;
+  height: 60px;
+  width: 120px;
+  border: none;
+  border-radius: 30px;
+  background: #555555;
+  text-align:start;
+  line-height: 0px;
+  color: white;
+  font-size: 30px;
+  transition: ease-in-out 200ms;
+}
+.nav-open ion-icon{
+  margin: 0 20px;
+}
+.nav-open:hover{
+  cursor: pointer;
+  transform: scale(0.97);
+}
+.nav-open:active{
+  opacity: 0.9;
+} */
 
 .list__header {
   position: sticky;

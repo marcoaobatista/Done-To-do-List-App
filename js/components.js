@@ -22,7 +22,14 @@ export function taskCardElement(list, taskName, taskId, dueDate, completed){
     textContentDiv.appendChild(titleSpan);
 
     if (dueDate != "Invalid Date") {
-        let date = dueDate.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        let date = dueDate.toLocaleDateString('en-US', 
+            {   timeZone: "UTC", 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            }).replace(/,/g, '');
+        // let date = dueDate.toDateString();
 
         let dueSpan = document.createElement("span");
         dueSpan.className = "task-card__date";

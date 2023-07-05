@@ -32,3 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         todoList.render();
     });
 });
+
+
+// TODO LIST (lol)-----
+// listname validadity check
