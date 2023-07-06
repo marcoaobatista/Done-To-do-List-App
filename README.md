@@ -16,7 +16,8 @@ Done is a dynamic Todo Lists application that allows users to effectively manage
 ## Setup and Installation
 
 1. Clone the repository from GitHub.
-2. Open the `index.html` file in a modern web browser.
+2. Start a local web server.
+3. Open the `index.html` file in a modern web browser.
 
 ## Usage
 
